@@ -1,0 +1,48 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=5000
+SAVEHIST=5000
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/patrick/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+# The following is partially based on my prior .bashrc and partially based on
+# an example .zshrc provided at http://people.freedesktop.org/~whot/zsh-setup
+setopt appendhistory  #append to history
+setopt inc_append_history # append immediately
+setopt hist_expire_dups_first # expire duplicates in history first
+setopt hist_ignore_dups # don't add dupes to history
+
+# Colors
+norm='%{[00m%}'
+red='%{[31;1m%}'
+green='%{[32;1m%}'
+yellow='%{[33;1m%}'
+blue='%{[34;1m%}'
+purple='%{[35;1m%}'
+cyan='%{[36;1m%}'
+white='%{[37;1m%}'
+
+happy="$green:-)$norm"
+sad="$red:-($norm"
+
+export PS1="%(!.$red.$cyan)%n@%m:$norm%~ %(?.$happy.$sad) $yellow%!$norm %# "
+
+unset norm red green yellow blue purple cyan white happy sad
+
+# colorize grep and stuff
+alias diff='colordiff'
+alias grep='grep --color=auto'
+alias less='less -R'
+
+# Make stuff
+alias mk3="make -j3"
+
+alias ls='ls --color=auto'
+alias l="ls -lF"
+alias ll="ls -l"
