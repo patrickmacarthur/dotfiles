@@ -18,6 +18,53 @@ setopt inc_append_history # append immediately
 setopt hist_expire_dups_first # expire duplicates in history first
 setopt hist_ignore_dups # don't add dupes to history
 
+setopt prompt_subst
+
+function precmd {
+    # let's get the current svn branch that we are under
+    svn_ps1 () {
+        if which svn > /dev/null; then
+            local r="$(svn info 2>/dev/null | grep '^Repository Root: ' | sed -e 's/Repository Root: //')"
+            local u="$(svn info 2>/dev/null | grep ^URL: | sed -e 's/URL: //')"
+            local b="${u/$r\//}"
+            local p="$PWD"
+            if [[ -n $u ]]; then
+                if [[ $b = branches* ]]; then
+                    b="${b/branches\//}"
+                    while [[ ${p##${p%%?}} == ${b##${b%%?}} ]]; do
+                        b="${b%%?}"
+                        p="${p%%?}"
+                    done
+                elif [[ $b = tags* ]]; then
+                    b="${b/tags\//}"
+                    while [[ ${p##${p%%?}} == ${b##${b%%?}} ]]; do
+                        b="${b%%?}"
+                        p="${p%%?}"
+                    done
+                elif [[ $b = trunk* ]]; then
+                    b="trunk"
+                else
+                    b=""
+                fi
+                echo "$b"
+            else
+                true
+            fi
+        else
+            true
+        fi
+    }
+
+    SVNBRANCH="$(svn_ps1)"
+    if [ -n "$SVNBRANCH" ]; then
+        local norm='%{[00m%}'
+        local red='%{[31;1m%}'
+        SVNBRANCH="($red$SVNBRANCH$norm)"
+    fi
+
+    SVNBRANCH=$SVNBRANCH
+}
+
 # Colors
 norm='%{[00m%}'
 red='%{[31;1m%}'
@@ -31,7 +78,7 @@ white='%{[37;1m%}'
 happy="$green:-)$norm"
 sad="$red:-($norm"
 
-export PS1="%(!.$red.$cyan)%n@%m:$norm%~ %(?.$happy.$sad) $yellow%!$norm %# "
+export PS1="%(!.$red.$cyan)%n@%m:$norm%~\$SVNBRANCH %(?.$happy.$sad) $yellow%!$norm %# "
 
 unset norm red green yellow blue purple cyan white happy sad
 
