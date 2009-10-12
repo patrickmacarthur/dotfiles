@@ -1,12 +1,14 @@
 " Begin .vimrc
 
+let loaded_matchparen = 1
+
 syntax on
 
 set wrapmargin=8
 set ruler
 set number
-set tabstop=3
-set shiftwidth=3
+set tabstop=4
+set shiftwidth=4
 set expandtab
 set nohlsearch
 set autoindent
@@ -20,14 +22,15 @@ set textwidth=72
 
 set background=dark
 
-set mat=8
+set showmatch
+set matchtime=2
 set incsearch
 set showcmd
 set smartindent
 set smarttab
 
 set comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-set formatoptions=croql
+set formatoptions+=croql
 
 " End .vimrc
 
