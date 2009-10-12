@@ -75,10 +75,10 @@ purple='%{[35;1m%}'
 cyan='%{[36;1m%}'
 white='%{[37;1m%}'
 
-happy="$green:-)$norm"
+happy="$blue:-)$norm"
 sad="$red:-($norm"
 
-export PS1="%(!.$red.$cyan)%n@%m:$norm%~\$SVNBRANCH %(?.$happy.$sad) $yellow%!$norm %# "
+export PS1="%(!.$red.$cyan)[%!] %n@%m:%~ %(?.$happy.$sad) %# $norm"
 
 unset norm red green yellow blue purple cyan white happy sad
 
