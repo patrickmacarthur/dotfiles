@@ -16,8 +16,6 @@ set autoindent
 set guifont=Monospace\ 8
 set guifontwide=Monospace\ 8
 
-"set makeprg=ant\ -emacs
-
 set textwidth=72
 
 set background=dark
@@ -31,6 +29,10 @@ set smarttab
 
 set comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
 set formatoptions+=croql
+
+set viminfo='200,<300,s150,%,h,!
+
+let g:is_posix = 1
 
 " End .vimrc
 
