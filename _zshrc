@@ -92,7 +92,6 @@ export PATH="$HOME/bin:$PATH"
 # colorize grep and stuff
 alias diff='colordiff'
 alias grep='grep --color=auto'
-alias less='less -R'
 
 # Make stuff
 alias mk3="make -j3"
@@ -103,3 +102,5 @@ alias ll="ls -l"
 
 export VISUAL=vim
 export EDITOR=$VISUAL
+export LESS="-QR"
+
