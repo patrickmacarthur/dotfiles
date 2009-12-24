@@ -16,12 +16,12 @@ compinit
 setopt appendhistory  #append to history
 setopt inc_append_history # append immediately
 setopt hist_expire_dups_first # expire duplicates in history first
-setopt hist_ignore_dups # don't add dupes to history
+setopt hist_ignore_all_dups # dont add dupes to history
 
 setopt prompt_subst
 
 function precmd {
-    # let's get the current svn branch that we are under
+    # lets get the current svn branch that we are under
     svn_ps1 () {
         if which svn > /dev/null; then
             local r="$(svn info 2>/dev/null | grep '^Repository Root: ' | sed -e 's/Repository Root: //')"
@@ -55,15 +55,20 @@ function precmd {
         fi
     }
 
+    # Set SVN branch
     SVNBRANCH="$(svn_ps1)"
     if [ -n "$SVNBRANCH" ]; then
-        local norm='%{[00m%}'
-        local red='%{[31;1m%}'
-        SVNBRANCH="($red$SVNBRANCH$norm)"
+        SVNBRANCH="($SVNBRANCH)"
     fi
 
-    SVNBRANCH=$SVNBRANCH
+    # Set xterm/screen title
+    case $TERM in
+        xterm*|screen*) print -Pn "\e]0;%n@%m:%~\a" ;;
+    esac
 }
+
+function svndiff { svn diff $@ | colordiff | less -R; }
+function svnlog { svn log $@ | less -R; }
 
 # Colors
 norm='%{[00m%}'
@@ -75,12 +80,14 @@ purple='%{[35;1m%}'
 cyan='%{[36;1m%}'
 white='%{[37;1m%}'
 
-happy="$blue:-)$norm"
-sad="$red:-($norm"
+happy="$blue:-)$cyan"
+sad="$red:-($cyan"
 
-export PS1="%(!.$red.$cyan)[%!] %n@%m:%~ %(?.$happy.$sad) %# $norm"
+export PS1="%(!.$red.$cyan)[%!] %n@%m:%~$yellow\$SVNBRANCH$cyan %(?.$happy.$sad) %# $norm"
 
 unset norm red green yellow blue purple cyan white happy sad
+
+export PATH="$HOME/bin:$PATH"
 
 # colorize grep and stuff
 alias diff='colordiff'
@@ -93,3 +100,6 @@ alias mk3="make -j3"
 alias ls='ls --color=auto'
 alias l="ls -lF"
 alias ll="ls -l"
+
+export VISUAL=vim
+export EDITOR=$VISUAL
