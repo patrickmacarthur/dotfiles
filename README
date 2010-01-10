@@ -6,3 +6,11 @@ machines that I use.  I have decided in addition to make this available
 as a resource for others to use to get what I feel is a reasonably
 decent default setup.
 
+I have provided a Makefile with an install target.  WARNING: the install
+target WILL overwrite any of your existing settings.  It will also
+create local versions of these files named (the_file).local where you
+can put local modifications that will not be overwritten on updates.
+
+Feel free to contact me at generalpenguin89@gmail.com with any comments
+or questions on any of these files.
+
