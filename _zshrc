@@ -110,3 +110,5 @@ export VISUAL=vim
 export EDITOR=$VISUAL
 export LESS="-QR"
 
+source $HOME/.zshrc.local
+
