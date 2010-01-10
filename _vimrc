@@ -34,5 +34,8 @@ set viminfo='200,<300,s150,%,h,!
 
 let g:is_posix = 1
 
+" Enable support for modelines embedded within files
+set modeline
+
 " End .vimrc
 
