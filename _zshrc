@@ -112,3 +112,5 @@ export LESS="-QR"
 
 source $HOME/.zshrc.local
 
+# cd without typing 'cd'
+setopt autocd
