@@ -40,7 +40,7 @@ let g:is_posix = 1
 set modeline
 
 " Source local vimrc to grab local-only modifications to this file
-source! .vimrc.local
+source ~/.vimrc.local
 
 " End .vimrc
 
