@@ -39,6 +39,10 @@ let g:is_posix = 1
 " Enable support for modelines embedded within files
 set modeline
 
+" Highlight whitespace at end of line.  Credit goes to eaburns
+highlight WhitespaceEOL ctermbg=Red guibg=Red
+match WhitespaceEOL /\s\+$/
+
 " Source local vimrc to grab local-only modifications to this file
 source ~/.vimrc.local
 
