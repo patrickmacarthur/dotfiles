@@ -8,7 +8,7 @@
 srcdir ?= ${PWD}
 
 SHELL = /bin/sh
-SOURCES = tmux.conf vimrc zshrc
+SOURCES = tmux.conf vimrc zshrc inputrc
 
 .PHONY : install
 

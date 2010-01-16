@@ -1,0 +1,19 @@
+# .inputrc
+#
+# Author: Patrick MacArthur <generalpenguin89@gmail.com>
+#
+# A basic inputrc.
+
+# Turn off the annoying system beep in bash and other readline-based
+# programs.
+set bell-style none
+
+# I prefer vi to emacs, so I set this.  Emacs mode is default, you can
+# explicitly set it with "set editing-mode emacs".  You can also define
+# custom keybindings in either mode.
+set editing-mode vi
+
+# Include local settings.
+$include ~/.inputrc.local
+
+# vim: ft=readline:
