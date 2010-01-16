@@ -14,6 +14,7 @@ SOURCES = tmux.conf vimrc zshrc
 
 install:
 	for i in $(SOURCES); do \
+		cp -f ${HOME}/.$$i ${HOME}/.$$i.backup \
 		cp -f ${srcdir}/_$$i ${HOME}/.$$i; \
 		touch ${HOME}/.$$i.local; \
 	done
