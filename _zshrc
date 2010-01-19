@@ -73,8 +73,9 @@ function precmd {
     esac
 }
 
-function svndiff { svn diff $@ | colordiff | less -R; }
+function svndiff { svn diff --no-diff-deleted $@ | colordiff | less -R; }
 function svnlog { svn log $@ | less -R; }
+function svnhelp { svn help $@ | less -R; }
 
 # Colors
 norm='%{[00m%}'
