@@ -24,28 +24,30 @@ setopt inc_append_history # append immediately
 setopt hist_expire_dups_first # expire duplicates in history first
 setopt hist_ignore_all_dups # dont add dupes to history
 
-setopt prompt_subst
 
+# Commands to run before the command prompt (PS1) is displayed.
+# We use this to display the current SVN branch if necessary and update
+# the window title.
 function precmd {
-    # lets get the current svn branch that we are under
+    # Gets and echoes the current svn branch that we are under
     svn_ps1 () {
         if which svn > /dev/null; then
-            local r="$(svn info 2>/dev/null | grep '^Repository Root: ' | sed -e 's/Repository Root: //')"
+            # u: URL of current directory in repository
+            # r: URL of repository root
+            # b: current branch
             local u="$(svn info 2>/dev/null | grep ^URL: | sed -e 's/URL: //')"
-            local b="${u/$r\//}"
-            local p="$PWD"
             if [[ -n $u ]]; then
+                local r="$(svn info 2>/dev/null | grep '^Repository Root: ' | sed -e 's/Repository Root: //')"
+                local b="${u/$r\//}"
                 if [[ $b = branches* ]]; then
                     b="${b/branches\//}"
                     while [[ ${p##${p%%?}} == ${b##${b%%?}} ]]; do
                         b="${b%%?}"
-                        p="${p%%?}"
                     done
                 elif [[ $b = tags* ]]; then
                     b="${b/tags\//}"
                     while [[ ${p##${p%%?}} == ${b##${b%%?}} ]]; do
                         b="${b%%?}"
-                        p="${p%%?}"
                     done
                 elif [[ $b = trunk* ]]; then
                     b="trunk"
@@ -69,30 +71,41 @@ function precmd {
 
     # Set xterm/screen title
     case $TERM in
-        xterm*|screen*) print -Pn "\e]0;%n@%m:%~\a" ;;
+        xterm*|screen*) print -Pn "\e]0;[%!] %n@%m:%~\a" ;;
     esac
 }
 
-function svndiff { svn diff $@ | colordiff | less -R; }
+# Sets the prompt.  Not necessary to segregate into a function but helps
+# to organize things a bit.
+setprompt() {
+    setopt prompt_subst
+
+    # See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
+    autoload colors zsh/terminfo
+    if [[ "$terminfo[colors]" -ge 8 ]]; then
+        colors
+    fi
+    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+        eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+        eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+        (( count = $count + 1 ))
+    done
+    PR_NO_COLOR="%{$terminfo[sgr0]%}"
+
+    happy="$PR_BLUE:-)$PR_CYAN"
+    sad="$PR_RED:-($PR_CYAN"
+
+    export PS1="$bgcolor%(!.$PR_RED.$PR_CYAN)[%!] %n@%m:%~$PR_YELLOW\
+\$SVNBRANCH$PR_CYAN %(?.$happy.$sad) %#$PR_NO_COLOR "
+}
+
+setprompt
+
+function svndiff { svn diff --no-diff-deleted $@ | colordiff | less -R; }
 function svnlog { svn log $@ | less -R; }
+function svnhelp { svn help $@ | less -R; }
 
-# Colors
-norm='%{[00m%}'
-red='%{[31;1m%}'
-green='%{[32;1m%}'
-yellow='%{[33;1m%}'
-blue='%{[34;1m%}'
-purple='%{[35;1m%}'
-cyan='%{[36;1m%}'
-white='%{[37;1m%}'
-
-happy="$blue:-)$cyan"
-sad="$red:-($cyan"
-
-export PS1="%(!.$red.$cyan)[%!] %n@%m:%~$yellow\$SVNBRANCH$cyan %(?.$happy.$sad) %# $norm"
-
-unset norm red green yellow blue purple cyan white happy sad
-
+# Add home bin to path
 export PATH="$HOME/bin:$PATH"
 
 # colorize grep and stuff
