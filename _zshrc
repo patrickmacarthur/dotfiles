@@ -24,50 +24,18 @@ setopt inc_append_history # append immediately
 setopt hist_expire_dups_first # expire duplicates in history first
 setopt hist_ignore_all_dups # dont add dupes to history
 
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' disable bzr cdv cvs darcs mtn p4 svk tla
 
 # Commands to run before the command prompt (PS1) is displayed.
 # We use this to display the current SVN branch if necessary and update
 # the window title.
 function precmd {
     # Gets and echoes the current svn branch that we are under
-    svn_ps1 () {
-        if which svn > /dev/null; then
-            # u: URL of current directory in repository
-            # r: URL of repository root
-            # b: current branch
-            local u="$(svn info 2>/dev/null | grep ^URL: | sed -e 's/URL: //')"
-            if [[ -n $u ]]; then
-                local r="$(svn info 2>/dev/null | grep '^Repository Root: ' | sed -e 's/Repository Root: //')"
-                local b="${u/$r\//}"
-                if [[ $b = branches* ]]; then
-                    b="${b/branches\//}"
-                    while [[ ${p##${p%%?}} == ${b##${b%%?}} ]]; do
-                        b="${b%%?}"
-                    done
-                elif [[ $b = tags* ]]; then
-                    b="${b/tags\//}"
-                    while [[ ${p##${p%%?}} == ${b##${b%%?}} ]]; do
-                        b="${b%%?}"
-                    done
-                elif [[ $b = trunk* ]]; then
-                    b="trunk"
-                else
-                    b=""
-                fi
-                echo "$b"
-            else
-                true
-            fi
-        else
-            true
-        fi
-    }
+    vcs_info
 
     # Set SVN branch
-    SVNBRANCH="$(svn_ps1)"
-    if [ -n "$SVNBRANCH" ]; then
-        SVNBRANCH="($SVNBRANCH)"
-    fi
+    SVNBRANCH="$vcs_info_msg_0_"
 
     # Set xterm/screen title
     case $TERM in
