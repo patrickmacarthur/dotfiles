@@ -106,6 +106,9 @@ alias ls='ls --color=auto'
 alias l="ls -lF"
 alias ll="ls -l"
 
+alias head='head -n $(($LINES-5))'
+alias tail='tail -n $(($LINES-5))'
+
 export VISUAL=vim
 export EDITOR=$VISUAL
 export LESS="-QR"
