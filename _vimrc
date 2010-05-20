@@ -21,6 +21,7 @@ set number
 set matchtime=2
 set modeline
 set incsearch
+set printoptions=paper:letter,duplex:off
 set pastetoggle=<f11>
 set ruler
 set shiftwidth=4
@@ -45,16 +46,6 @@ let g:is_posix = 1
 " tabs and stuff like that
 let c_space_errors = 1
 
-if !exists("*s:IncludeGuard")
-  function s:IncludeGuard()
-    0    !echo -n "\#ifndef " ; echo % | tr '[:lower:].' '[:upper:]_'
-    read !echo -n "\#define " ; echo % | tr '[:lower:].' '[:upper:]_'
-    read !echo
-    read !echo
-    read !echo "\#endif"
-    :-1
-  endfunction
-endif
 
 if !exists("*CPPInputOperator")
   function CPPInputOperator()
@@ -81,7 +72,7 @@ endif
 if !exists("*CModeline")
   function CModeline( )
     append
-/* vim: set et sw=4 tw=79: */
+/* vim: set et sw=4 tw=78: */
 .
   endfunction
 endif
@@ -116,19 +107,23 @@ if !exists("*GPLHeader")
 endif
 
 if has("autocmd")
+  filetype plugin indent on
+
   augroup c
     autocmd!
-    autocmd BufNewFile *.h call <SID>IncludeGuard()
-    autocmd BufNewFile *.hpp call <SID>IncludeGuard()
-    autocmd BufNewFile *.cc call GPLHeader()
-    autocmd BufNewFile *.h call GPLHeader()
+    if !exists("*s:IncludeGuard")
+      function s:IncludeGuard()
+        0    !echo -n "\#ifndef " ; echo % | tr '[:lower:].' '[:upper:]_'
+        read !echo -n "\#define " ; echo % | tr '[:lower:].' '[:upper:]_'
+        read !echo
+        read !echo
+        read !echo "\#endif"
+        :-1
+      endfunction
+      autocmd BufNewFile *.h,*.hh,*.hpp call <SID>IncludeGuard()
+    endif
 
-    " Highlight lines that are over 80 characters in length.  Credit:
-    " http://stackoverflow.com/questions/235439/vim-80-column-layout-concerns
-    autocmd BufWinEnter * if &textwidth > 8
-          \ | let w:m2=matchadd('ErrorMsg', printf('\%%>%dv.\+', &textwidth), -1)
-          \ | endif
-
+    autocmd BufNewFile *.c,*.cc,*.cpp,*.cxx,*.h,*.hh,*.hpp call GPLHeader()
   augroup END
 
   augroup filetypedetect
@@ -139,7 +134,6 @@ if has("autocmd")
 endif
 
 " For vim-latexsuite
-filetype plugin indent on
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_DefaultTargetFormat = "pdf"
