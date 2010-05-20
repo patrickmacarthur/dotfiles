@@ -125,12 +125,6 @@ if has("autocmd")
 
     autocmd BufNewFile *.c,*.cc,*.cpp,*.cxx,*.h,*.hh,*.hpp call GPLHeader()
   augroup END
-
-  augroup filetypedetect
-    au BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
-    au BufNewFile,BufRead *.tex,*.ltx setf tex
-    au BufNewFile,BufRead *.go setf go
-  augroup END
 endif
 
 " For vim-latexsuite
