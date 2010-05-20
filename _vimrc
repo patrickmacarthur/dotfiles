@@ -132,6 +132,7 @@ if has("autocmd")
   augroup END
 
   augroup filetypedetect
+    au BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
     au BufNewFile,BufRead *.tex,*.ltx setf tex
     au BufNewFile,BufRead *.go setf go
   augroup END
