@@ -70,7 +70,7 @@ setprompt() {
 setprompt
 
 # colorize grep and stuff
-if whence -p colordiff; then
+if whence -p colordiff >/dev/null 2>&1; then
     alias diff='colordiff'
     function svndiff {
         svn diff --no-diff-deleted $@ | colordiff | less -R;
