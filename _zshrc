@@ -69,21 +69,34 @@ setprompt() {
 
 setprompt
 
-function svndiff { svn diff --no-diff-deleted $@ | colordiff | less -R; }
+# colorize grep and stuff
+if whence -p colordiff; then
+    alias diff='colordiff'
+    function svndiff {
+        svn diff --no-diff-deleted $@ | colordiff | less -R;
+    }
+else
+    function svndiff {
+        svn diff --no-diff-deleted $@ | less -R;
+    }
+fi
+
+alias grep='grep --color=auto'
+
 function svnlog { svn log $@ | less -R; }
 function svnhelp { svn help $@ | less -R; }
 
 # Add home bin to path
 export PATH="$HOME/bin:$PATH"
 
-# colorize grep and stuff
-alias diff='colordiff'
-alias grep='grep --color=auto'
-
 # Make stuff
 alias mk3="make -j3"
 
-alias ls='ls --color=auto'
+if [[ $(uname -s) == "Linux" ]]; then
+    alias ls='ls --color=auto'
+elif [[ $(uname -s) == "FreeBSD" ]]; then
+    alias ls='ls -G'
+fi
 alias l="ls -lF"
 alias ll="ls -l"
 
