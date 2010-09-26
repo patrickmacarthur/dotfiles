@@ -106,6 +106,13 @@ if !exists("*GPLHeader")
   endfunction
 endif
 
+if !exists("*HSHeader")
+  function HSHeader( )
+    -1 read !echo "-- File: %"
+    :2
+  endfunction
+endif
+
 if has("autocmd")
   filetype plugin indent on
 
@@ -122,8 +129,10 @@ if has("autocmd")
       endfunction
       autocmd BufNewFile *.h,*.hh,*.hpp call <SID>IncludeGuard()
     endif
+  augroup END
 
-    autocmd BufNewFile *.c,*.cc,*.cpp,*.cxx,*.h,*.hh,*.hpp call GPLHeader()
+  augroup hs
+    autocmd BufNewFile *.hs call HSHeader()
   augroup END
 endif
 
