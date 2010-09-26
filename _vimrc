@@ -24,12 +24,12 @@ set incsearch
 set printoptions=paper:letter,duplex:off
 set pastetoggle=<f11>
 set ruler
-set shiftwidth=4
+set shiftwidth=2
 set showcmd
 set showmatch
 set smartindent
 set smarttab
-set tabstop=4
+set tabstop=2
 set textwidth=80
 set wildmenu
 set wrapmargin=8
