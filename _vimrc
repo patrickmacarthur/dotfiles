@@ -101,10 +101,26 @@ if !exists("*s:IncludeGuard")
   endfunction
 endif
 
+" C folding
+" - reserve 1 column on the left for folding tree, assuming > 80 columns
+" - fold by syntax, use {}'s
+" - only fold outermost entities
+if !exists("*EnableCFolding")
+  function EnableCFolding()
+    setlocal foldmethod=syntax
+    setlocal foldnestmax=1
+    if winwidth(0) > 80
+      setlocal foldcolumn=1
+    endif
+  endfunction
+endif
+
 if has("autocmd")
 
   " C/C++
   autocmd BufNewFile *.h,*.hh,*.hpp call <SID>IncludeGuard()
+  autocmd BufReadPost,BufNewFile *.h,*.hh,*.hpp call EnableCFolding()
+  autocmd BufReadPost,BufNewFile *.c,*.cc,*.cpp,*.C call EnableCFolding()
 
   " SML
 
