@@ -2,30 +2,34 @@
 "
 " by Patrick MacArthur <generalpenguin89@gmail.com>
 
-let loaded_matchparen = 1
+" Start out with vim (not vi) defaults
+set nocompatible
 
-if has("syntax")
-  syntax on
+if has("syntax") && (&t_Co > 2 || has("gui_running"))
   set background=dark
+  syntax enable
+  set hlsearch
 endif
+
+filetype plugin indent on
 
 " These are my settings; in (mostly) alphabetical order.  If you don't know what
 " one of them does, run :help <name> from within vim.
 set autoindent
+set nobackup
 set noesckeys
 set expandtab
 set guifont=Monospace\ 8
 set guifontwide=Monospace\ 8
-set nohlsearch
 set number
 set matchtime=2
-set modeline
 set incsearch
 set printoptions=paper:letter,duplex:off
 set pastetoggle=<f11>
 set ruler
 set shiftwidth=2
 set showcmd
+set showmode
 set showmatch
 set smartindent
 set smarttab
@@ -34,11 +38,12 @@ set textwidth=80
 set wildmenu
 set wrapmargin=8
 
-set comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-set formatoptions+=croql
+" set comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+" set formatoptions+=croql
 
 set viminfo='200,<300,s150,%,h,!
 
+" Assume /bin/sh is the POSIX shell, not the original Bourne shell
 let g:is_posix = 1
 
 " Highlight whitespace at end of line.
@@ -69,43 +74,6 @@ if !exists("*CPPOutputOperator")
   endfunction
 endif
 
-if !exists("*CModeline")
-  function CModeline( )
-    append
-/* vim: set et sw=4 tw=78: */
-.
-  endfunction
-endif
-
-if !exists("*GPLHeader")
-  function GPLHeader( )
-    -1 read !echo "/*  %"
-    append
-
-    Copyright (c) 2010 Patrick MacArthur
-    
-    This file is part of AwesomeProgram
-
-    AwesomeProgram is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    AwesomeProgram is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with AwesomeProgram.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-.
-    call CModeline()
-    -1
-  endfunction
-endif
-
 if !exists("*HSHeader")
   function HSHeader( )
     -1 read !echo "-- File: %"
@@ -113,27 +81,26 @@ if !exists("*HSHeader")
   endfunction
 endif
 
+if !exists("*s:IncludeGuard")
+  function s:IncludeGuard()
+    0    !echo -n "\#ifndef " ; echo % | tr '[:lower:].' '[:upper:]_'
+    read !echo -n "\#define " ; echo % | tr '[:lower:].' '[:upper:]_'
+    read !echo
+    read !echo
+    read !echo "\#endif"
+    :-1
+  endfunction
+endif
+
 if has("autocmd")
-  filetype plugin indent on
 
-  augroup c
-    autocmd!
-    if !exists("*s:IncludeGuard")
-      function s:IncludeGuard()
-        0    !echo -n "\#ifndef " ; echo % | tr '[:lower:].' '[:upper:]_'
-        read !echo -n "\#define " ; echo % | tr '[:lower:].' '[:upper:]_'
-        read !echo
-        read !echo
-        read !echo "\#endif"
-        :-1
-      endfunction
-      autocmd BufNewFile *.h,*.hh,*.hpp call <SID>IncludeGuard()
-    endif
-  augroup END
+  " C/C++
+  autocmd BufNewFile *.h,*.hh,*.hpp call <SID>IncludeGuard()
 
-  augroup hs
-    autocmd BufNewFile *.hs call HSHeader()
-  augroup END
+  " SML
+
+  " Haskell
+  autocmd BufNewFile *.hs call HSHeader()
 endif
 
 " For vim-latexsuite
@@ -146,6 +113,8 @@ let g:Tex_MultipleCompileFormats = "dvi pdf"
 if filereadable(expand("$HOME/.vimrc.local"))
   source $HOME/.vimrc.local
 endif
+
+nohlsearch
 
 " End .vimrc
 "
