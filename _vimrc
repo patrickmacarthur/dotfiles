@@ -5,10 +5,19 @@
 " Start out with vim (not vi) defaults
 set nocompatible
 
-if has("syntax") && (&t_Co > 2 || has("gui_running"))
-  set background=dark
-  syntax enable
-  set hlsearch
+if has("syntax")
+  if has("gui_running") || &t_Co >= 256
+    syntax enable
+    set hlsearch
+    colorscheme ir_black
+  elseif &t_Co > 2
+    set background=dark
+    syntax enable
+    set hlsearch
+  else
+    syntax off
+    set nohlsearch
+  endif
 endif
 
 filetype plugin indent on
