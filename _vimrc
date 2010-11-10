@@ -115,6 +115,14 @@ if !exists("*EnableCFolding")
   endfunction
 endif
 
+if !exists("*SetSMLIndent")
+  function SetSMLIndent()
+    set shiftwidth=4
+    set tabstop=4
+    set wrapmargin=0
+  endfunction
+endif
+
 if has("autocmd")
 
   " C/C++
@@ -123,6 +131,7 @@ if has("autocmd")
   autocmd BufReadPost,BufNewFile *.c,*.cc,*.cpp,*.C call EnableCFolding()
 
   " SML
+  autocmd BufReadPost,BufNewFile *.sml call SetSMLIndent()
 
   " Haskell
   autocmd BufNewFile *.hs call HSHeader()
