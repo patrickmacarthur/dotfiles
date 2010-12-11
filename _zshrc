@@ -17,6 +17,16 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+PARENT=`ps --pid $PPID -o comm=`
+if [[ -e /usr/share/terminfo/$TERM[1]/$TERM-256color && ! ($TERM =~ .*-256color) ]]; then
+  for term256 in gnome-terminal konsole yakuake; do
+    if [[ $PARENT = $term256 ]]; then
+      export TERM=$TERM-256color
+    fi
+  done
+fi
+unset PARENT
+
 # The following is partially based on my prior .bashrc and partially based on
 # an example .zshrc provided at http://people.freedesktop.org/~whot/zsh-setup
 setopt appendhistory  #append to history
