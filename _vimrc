@@ -5,8 +5,15 @@
 " Start out with vim (not vi) defaults
 set nocompatible
 
+filetype plugin indent on
+
 if has("syntax")
-  if has("gui_running") || &t_Co >= 256
+  if has("gui_running")
+    syntax enable
+    set hlsearch
+    let g:liquidcarbon_high_contrast=1
+    colorscheme liquidcarbon
+  elseif &t_Co >= 256
     syntax enable
     set hlsearch
     colorscheme ir_black
@@ -20,7 +27,12 @@ if has("syntax")
   endif
 endif
 
-filetype plugin indent on
+if has("gui_running")
+  set cursorline
+  set guifont=Monospace\ 10
+  set guifontwide=Monospace\ 10
+  set guioptions-=T
+endif
 
 " These are my settings; in (mostly) alphabetical order.  If you don't know what
 " one of them does, run :help <name> from within vim.
@@ -28,8 +40,6 @@ set autoindent
 set nobackup
 set noesckeys
 set expandtab
-set guifont=Monospace\ 8
-set guifontwide=Monospace\ 8
 set number
 set matchtime=2
 set incsearch
@@ -107,10 +117,10 @@ endif
 " - only fold outermost entities
 if !exists("*EnableCFolding")
   function EnableCFolding()
-    setlocal foldmethod=syntax
-    setlocal foldnestmax=1
-    if winwidth(0) > 80
-      setlocal foldcolumn=1
+    setlocal foldmethod=marker
+    setlocal foldnestmax=2
+    if winwidth(0) > 90
+      setlocal foldcolumn=4
     endif
   endfunction
 endif
