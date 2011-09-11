@@ -1,0 +1,59 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+# Prompt
+normal='\[\e[0m\]'
+normalb='\[\e[0;1m\]'
+red='\[\e[31;1m\]'
+redb='\[\e[31;1m\]'
+green='\[\e[32;1m\]'
+greenb='\[\e[32;1m\]'
+yellow='\[\e[33;1m\]'
+blue='\[\e[34;1m\]'
+blueb='\[\e[34;1m\]'
+purple='\[\e[35;1m\]'
+cyan='\[\e[36;1m\]'
+white='\[\e[37;1m\]'
+
+happy="$greenb:-)$normal"
+sad="$redb:-($normal"
+stat="\`if [ \$? = 0 ]; then echo \"$happy\"; else echo \"$sad\"; fi\`"
+PS1="$cyan[\!][\u@\h:$yellow\W$cyan]$normal $stat $cyan\$$normal "
+
+unset normal normalb red green greenb yellow blue blueb purple cyan white
+unset happy sad stat
+
+# Change the window title of X terminals 
+case ${TERM} in
+	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|interix)
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:$(dirs)\007"'
+		;;
+	screen)
+    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:$(dirs)\033\\"'
+		;;
+esac
+
+# colorize grep and stuff
+alias diff='colordiff'
+alias grep='grep --color=auto'
+alias less='less -R'
+
+# Make stuff
+alias mk3="make -j3"
+
+alias ls='ls --color=auto'
+alias l="ls -lF"
+alias ll="ls -l"
+
+# Root path for sudo
+alias sudo='PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin sudo'
+
+if [ -f /etc/profile.d/bash-completion.sh ]; then
+  source /etc/profile.d/bash-completion.sh
+fi
