@@ -63,7 +63,16 @@ set wrapmargin=8
 " set comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
 " set formatoptions+=croql
 
-set viminfo='200,<300,s150,%,h,!
+" Enable saving things into viminfo.  However, vim will complain if we try to
+" use a newer feature in an older version, so test the version before enabling
+" newer viminfo features.
+if has("viminfo")
+  if version >= 700
+    set viminfo='200,<300,s150,%,h,!
+  elseif version >= 600
+    set viminfo='200,\"300,%,h,!
+  endif
+endif
 
 " Assume /bin/sh is the POSIX shell, not the original Bourne shell
 let g:is_posix = 1
