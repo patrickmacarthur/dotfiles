@@ -41,6 +41,7 @@ endif
 " one of them does, run :help <name> from within vim.
 set autoindent
 set nobackup
+set cinoptions=:0
 set noesckeys
 set noexpandtab
 set number
