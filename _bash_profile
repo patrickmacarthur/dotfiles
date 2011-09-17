@@ -22,7 +22,9 @@ fi
 
 
 # Show X11 display
-echo X11 display is $DISPLAY
+if [ -n $DISPLAY ]; then
+	echo X11 display is $DISPLAY
+fi
 
 # Show terminal type and setup terminal
 echo Terminal type is $TERM
