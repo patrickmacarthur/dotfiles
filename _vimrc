@@ -136,10 +136,10 @@ function! s:PosixCHeader()
     read !echo " * Patrick MacArthur <pio3@wildcats.unh.edu>"
     read !echo " */"
     read !echo
-    read !echo -n "\#include _POSIX_C_SOURCE 200112L"
-    read !echo -n "\#include _ISOC99_SOURCE"
-    read !echo -n "\#include __EXTENSIONS__"
-    read !echo -n "\#include _XOPEN_SOURCE 600"
+    read !echo -n "\#define _POSIX_C_SOURCE 200112L"
+    read !echo -n "\#define _ISOC99_SOURCE"
+    read !echo -n "\#define __EXTENSIONS__"
+    read !echo -n "\#define _XOPEN_SOURCE 600"
     read !echo
     read !echo
     read !echo "/* vim: set shiftwidth=8 tabstop=8 noexpandtab : */"
