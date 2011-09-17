@@ -32,6 +32,9 @@ if has("gui_running")
   set guifont=Monospace\ 10
   set guifontwide=Monospace\ 10
   set guioptions-=T
+
+  runtime ftplugin/man.vim
+  nmap K :Man <cword><CR>
 endif
 
 " These are my settings; in (mostly) alphabetical order.  If you don't know what
