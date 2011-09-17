@@ -1,5 +1,21 @@
 # .bashrc
+#
+# This file is sourced by all *interactive* bash shells on startup,
+# including some apparently interactive shells such as scp and rcp
+# that can't tolerate any output.  So make sure this doesn't display
+# anything or bad things will happen !
 
+
+# Test for an interactive shell.  There is no need to set anything
+# past this point for scp and rcp, and it's important to refrain from
+# outputting anything in those cases.
+if [[ $- != *i* ]] ; then
+	# Shell is non-interactive.  Be done now!
+	return
+fi
+
+
+# Put your fun stuff here.
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -32,28 +48,34 @@ unset happy sad stat
 # Change the window title of X terminals 
 case ${TERM} in
 	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|interix)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:$(dirs)\007"'
+		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:$(dirs)\007"'
 		;;
 	screen)
-    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:$(dirs)\033\\"'
+		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:$(dirs)\033\\"'
 		;;
 esac
 
-# colorize grep and stuff
-alias diff='colordiff'
-alias grep='grep --color=auto'
-alias less='less -R'
+# Colorization and other support for colorization in GNU tools.  If we don't
+# have GNU tools, use POSIX options that give us something close to what we
+# want.
+type colordiff >/dev/null 2>&1 && alias diff=colordiff
+if [ $OSTYPE == "linux" -o $OSTYPE == "linux-gnu" ]; then
+	alias ls="ls --color=auto"
+	export GREP_OPTIONS="$GREP_OPTIONS --color=auto -n"
+else
+	alias ls='ls -F'
+fi
 
-# Make stuff
-alias mk3="make -j3"
-
-alias ls='ls --color=auto'
 alias l="ls -lF"
 alias ll="ls -l"
 
-# Root path for sudo
-alias sudo='PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin sudo'
+export VISUAL=vim
+export EDITOR=$VISUAL
+export PAGER=less
+export LESS=-QR
 
+# This is needed on Gentoo to enable bash completion, since the script is not
+# sourced for non-interactive login shells.
 if [ -f /etc/profile.d/bash-completion.sh ]; then
   source /etc/profile.d/bash-completion.sh
 fi
