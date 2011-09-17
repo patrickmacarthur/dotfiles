@@ -1,0 +1,32 @@
+# .bash_profile
+
+# The personal initialization file, executed for login shells
+
+# Test for an interactive shell.  There is no need to set anything
+# past this point for scp and rcp, and it's important to refrain from
+# outputting anything in those cases.
+if [[ $- != *i* ]] ; then
+	# Shell is non-interactive.  Be done now!
+	return
+fi
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+PATH=$PATH:$HOME/bin
+export PATH
+
+# Show terminal type and setup terminal
+echo Terminal type is $TERM
+tset
+
+# Let us know if we've got running screen sessions
+if [ -x /usr/bin/screen ]; then
+	screen -ls
+fi
+
+# Display something witty :)
+type fortune >/dev/null 2>&1 && fortune
