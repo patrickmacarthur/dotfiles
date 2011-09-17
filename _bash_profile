@@ -22,7 +22,7 @@ fi
 
 
 # Show X11 display
-if [ -n $DISPLAY ]; then
+if [ -n "$DISPLAY" ]; then
 	echo X11 display is $DISPLAY
 fi
 
