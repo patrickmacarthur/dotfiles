@@ -27,6 +27,7 @@ fi
 function recolor()
 {
 	local normal red green yellow blue purple cyan white
+	local happy sad stat
 
 	if [[ "z$TERMBG" == "zdark" ]]; then
 		normal='\[\e[0m\]'
