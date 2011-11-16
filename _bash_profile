@@ -99,6 +99,17 @@ fi
 echo "Terminal type is $TERM."
 tset
 
+# Set background color
+if [[ -z "$TERMBG" && -f $HOME/.termbg.$TERM ]]; then
+	source $HOME/.termbg.$TERM
+fi
+if [[ "z$TERMBG" == "zdark" || "z$TERMBG" == "zlight" ]]; then
+	export TERMBG
+	echo "Terminal background is $TERMBG."
+else
+	echo "Please export TERMBG=light or TERMBG=dark."
+fi
+
 # Let us know if we've got running screen sessions
 if [ -x /usr/bin/screen ]; then
 	screen -ls
