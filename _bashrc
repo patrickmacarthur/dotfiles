@@ -24,26 +24,37 @@ fi
 # User specific aliases and functions
 
 # Prompt
-normal='\[\e[0m\]'
-normalb='\[\e[0;1m\]'
-red='\[\e[31;1m\]'
-redb='\[\e[31;1m\]'
-green='\[\e[32;1m\]'
-greenb='\[\e[32;1m\]'
-yellow='\[\e[33;1m\]'
-blue='\[\e[34;1m\]'
-blueb='\[\e[34;1m\]'
-purple='\[\e[35;1m\]'
-cyan='\[\e[36;1m\]'
-white='\[\e[37;1m\]'
+function recolor()
+{
+	local normal red green yellow blue purple cyan white
 
-happy="$greenb:-)$normal"
-sad="$redb:-($normal"
-stat="\`if [ \$? = 0 ]; then echo \"$happy\"; else echo \"$sad\"; fi\`"
-PS1="$cyan[\!][\u@\h:$yellow\W$cyan]$normal $stat $cyan\$$normal "
+	if [[ "z$TERMBG" == "zdark" ]]; then
+		normal='\[\e[0m\]'
+		red='\[\e[31;1m\]'
+		green='\[\e[32;1m\]'
+		yellow='\[\e[33;1m\]'
+		blue='\[\e[34;1m\]'
+		purple='\[\e[35;1m\]'
+		cyan='\[\e[36;1m\]'
+		white='\[\e[37;1m\]'
+	elif [[ "z$TERMBG" == "zlight" ]]; then
+		normal='\[\e[0m\]'
+		red='\[\e[31m\]'
+		green='\[\e[32m\]'
+		yellow='\[\e[33m\]'
+		blue='\[\e[34m\]'
+		purple='\[\e[35m\]'
+		cyan='\[\e[36m\]'
+		white='\[\e[37m\]'
+	fi
 
-unset normal normalb red green greenb yellow blue blueb purple cyan white
-unset happy sad stat
+	happy="$green:-)$normal"
+	sad="$red:-($normal"
+	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
+	PS1="$cyan[\!][\u@\h:$yellow\W$cyan]$normal $stat $cyan\$$normal "
+}
+recolor
+export PS1
 
 # Change the window title of X terminals 
 case ${TERM} in

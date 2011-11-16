@@ -1,9 +1,5 @@
 # .bash_profile
 
-# This file is sourced by bash for login shells.  The following line
-# runs your .bashrc and is recommended by the bash info pages.
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-
 # Red Hat does this in ~/.bash_profile, I am going to trust them and do path
 # changes here
 if [ -d "$HOME/bin" ] && [[ ":$PATH:" !=  *":$!:"* ]]; then
@@ -119,3 +115,7 @@ fi
 if type fortune >/dev/null 2>&1; then
 	fortune
 fi
+
+# This file is sourced by bash for login shells.  The following line
+# runs your .bashrc and is recommended by the bash info pages.
+[[ -f ~/.bashrc ]] && . ~/.bashrc
