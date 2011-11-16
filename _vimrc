@@ -16,9 +16,17 @@ if has("syntax")
   elseif &t_Co >= 256
     syntax enable
     set hlsearch
-    colorscheme ir_black
+    if $TERMBG == "dark"
+      colorscheme ir_black
+    else
+      set bg=light
+    endif
   elseif &t_Co > 2
-    set background=dark
+    if $TERMBG == "dark"
+      set background=dark
+    else
+      set background=light
+    endif
     syntax enable
     set hlsearch
   else
