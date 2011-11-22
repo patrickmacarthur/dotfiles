@@ -53,6 +53,14 @@ function recolor()
 	sad="$red:-($normal"
 	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
 	PS1="$cyan[\!][\u@\h:$yellow\W$cyan]$normal $stat $cyan\$$normal "
+
+	if [[ $(tput colors) -ge 256 ]]; then
+		eval `dircolors --sh $HOME/.dircolors.256color`
+	elif [[ -e $HOME/.dircolors.$TERMBG ]]; then
+		eval `dircolors --sh $HOME/.dircolors.$TERMBG`
+	else
+		unset LS_COLORS
+	fi
 }
 recolor
 export PS1
