@@ -24,11 +24,16 @@ if has("syntax")
   elseif &t_Co > 2
     if $TERMBG == "dark"
       set background=dark
-    else
+      syntax enable
+      set hlsearch
+    elseif $TERMBG == "light"
       set background=light
+      syntax enable
+      set hlsearch
+    else
+      syntax off
+      set nohlsearch
     endif
-    syntax enable
-    set hlsearch
   else
     syntax off
     set nohlsearch
