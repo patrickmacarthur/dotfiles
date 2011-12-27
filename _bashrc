@@ -29,6 +29,10 @@ function recolor()
 	local normal red green yellow blue purple cyan white
 	local happy sad stat
 
+	if [[ "z$1" == "zdark" || "z$1" == "zlight" ]]; then
+		TERMBG="$1"
+	fi
+
 	if [[ "z$TERMBG" == "zdark" ]]; then
 		normal='\[\e[0m\]'
 		red='\[\e[31;1m\]'
