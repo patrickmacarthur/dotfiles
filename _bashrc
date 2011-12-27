@@ -90,9 +90,6 @@ else
 	alias ls='ls -F'
 fi
 
-alias l="ls -lF"
-alias ll="ls -l"
-
 export VISUAL=vim
 export EDITOR=$VISUAL
 export PAGER=less
