@@ -70,7 +70,6 @@ set showmatch
 set smartindent
 set smarttab
 set tabstop=8
-set textwidth=80
 set wildmenu
 set wrapmargin=8
 
