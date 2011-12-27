@@ -1,8 +1,15 @@
 # .zshrc
 #
+# .zshrc is sourced in interactive shells.  It
+# should contain commands to set up aliases, functions,
+# options, key bindings, etc.
+#
 # Patrick MacArthur
 #
 # vim: set filetype=zsh :
+
+typeset -U path
+path=(~/bin $path)
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -17,22 +24,13 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-PARENT=`ps --pid $PPID -o comm=`
-if [[ -e /usr/share/terminfo/$TERM[1]/$TERM-256color && ! ($TERM =~ .*-256color) ]]; then
-  for term256 in gnome-terminal konsole yakuake; do
-    if [[ $PARENT = $term256 ]]; then
-      export TERM=$TERM-256color
-    fi
-  done
-fi
-unset PARENT
-
 # The following is partially based on my prior .bashrc and partially based on
 # an example .zshrc provided at http://people.freedesktop.org/~whot/zsh-setup
 setopt appendhistory  #append to history
 setopt inc_append_history # append immediately
 setopt hist_expire_dups_first # expire duplicates in history first
 setopt hist_ignore_all_dups # dont add dupes to history
+setopt nobeep               # don't beep
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' disable bzr cdv cvs darcs mtn p4 svk tla
@@ -96,9 +94,6 @@ alias grep='grep --color=auto'
 function svnlog { svn log $@ | less -R; }
 function svnhelp { svn help $@ | less -R; }
 
-# Add home bin to path
-export PATH="$HOME/bin:$PATH"
-
 # Make stuff
 alias mk3="make -j3"
 
@@ -117,7 +112,7 @@ export VISUAL=vim
 export EDITOR=$VISUAL
 export LESS="-QR"
 
-source $HOME/.zshrc.local
-
 # cd without typing 'cd'
 setopt autocd
+
+source $HOME/.zshrc.local
