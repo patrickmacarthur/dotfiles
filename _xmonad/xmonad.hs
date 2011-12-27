@@ -15,6 +15,7 @@ import DBus.Message
 import XMonad.Layout.Grid
 import XMonad.Layout.IM
 import XMonad.Layout.PerWorkspace
+import XMonad.Layout.Reflect
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks (avoidStruts)
 import XMonad.Hooks.ManageHelpers (isFullscreen,doFullFloat)
@@ -32,8 +33,7 @@ import qualified Data.Map        as M
 myModMask    = mod4Mask
 
 -- Workspaces.  Name workspaces by putting them in a list like this:
---    workspaces = ["1:web", "2:irc", "3:code"] ++ map show [4..9]
-myWorkspaces = ["1:xterm", "2:web", "3:chat", "4:music", "5:mail"] ++ map show [6..9]
+myWorkspaces = ["1:xterm", "2:web", "3:chat", "4:music", "5:mail", "6:pim", "7:gimp", "8", "9"]
 
 ------------------------------------------------------------------------
 -- Additional key bindings. Add, modify or remove key bindings here.
@@ -63,12 +63,14 @@ myManageHook = composeAll $
         , className =? "Xmessage"       --> doFloat
         , className =? "Zenity"         --> doFloat
         , className =? "Pidgin"         --> doShift "3:chat"
+        , resource =? "empathy"         --> doShift "3:chat"
         , className =? "Empathy"        --> doShift "3:chat"
         , className =? "Firefox"        --> doShift "2:web"
         , (className =? "Firefox" <&&> fmap (/= "Navigator") appName) --> doFloat
+        , (className =? "Evolution" <&&> fmap ((== "ShellWindow") . take 11) appName) --> doShift "5:mail"
+        , (className =? "Evolution" <&&> fmap ((/= "ShellWindow") . take 11) appName) --> doShift "6:pim"
         , className =? "Amarok"         --> doShift "4:music"
         , className =? "Kontact"        --> doShift "5:mail"
-        , className =? "Evolution"      --> doShift "5:mail"
         , resource  =? "desktop_window" --> doIgnore
         , resource  =? "kdesktop"       --> doIgnore 
         , isFullscreen                  --> doFullFloat
@@ -76,19 +78,26 @@ myManageHook = composeAll $
 
 myLayoutHook = onWorkspace "3:chat" imLayout $
                onWorkspace "2:web" webLayout $
+               onWorkspace "7:gimp" gimpLayout $
                layoutHook gnomeConfig
-  where imLayout = avoidStruts $ withIM (1%5) imRoster Grid ||| Full
+  where imLayout = desktopLayoutModifiers $ withIM (1%5) imRoster Grid ||| Full
         imRoster = ClassName "Empathy" `And` Role "contact_list"
-        webLayout = avoidStruts $ Full ||| Tall 1 (3%100) (1%2)
+        webLayout = desktopLayoutModifiers $ Full ||| Tall 1 (3%100) (1%2)
+        gimpLayout = desktopLayoutModifiers $ withIM (0.20) (Role "gimp-toolbox") $
+                     reflectHoriz $
+                     withIM (0.20) (Role "gimp-dock") Full
 
 myPrettyPrinter :: Connection -> PP
 myPrettyPrinter dbus = defaultPP 
   { ppOutput  = outputThroughDBus dbus
-  , ppTitle   = pangoColor "#003366" . shorten 50 . pangoSanitize
-  , ppCurrent = pangoColor "#006666" . wrap "[" "]" . pangoSanitize
-  , ppVisible = pangoColor "#663366" . wrap "(" ")" . pangoSanitize
+--  , ppTitle   = pangoColor "#003366" . shorten 50 . pangoSanitize
+--  , ppCurrent = pangoColor "#006666" . wrap "[" "]" . pangoSanitize
+--  , ppVisible = pangoColor "#663366" . wrap "(" ")" . pangoSanitize
+  , ppTitle   = pangoColor "#729fcf" . shorten 50 . pangoSanitize
+  , ppCurrent = pangoColor "#8ae234" . wrap "[" "]" . pangoSanitize
+  , ppVisible = pangoColor "#ad7fa8" . wrap "(" ")" . pangoSanitize
   , ppHidden  = wrap " " " "
-  , ppUrgent  = pangoColor "red"
+  , ppUrgent  = pangoColor "#ef2929"
   }
 
 ---------------------------------
@@ -127,7 +136,7 @@ getWellKnownName dbus = tryGetName `catchDyn` (\ (DBus.Error _ _) ->
 
 outputThroughDBus :: Connection -> String -> IO ()
 outputThroughDBus dbus str = do
-  let str' = "<span font=\"Terminus 9 Bold\">" ++ str ++ "</span>"
+  let str' = "<span font=\"Inconsolata 9 Bold\">" ++ str ++ "</span>"
   msg <- newSignal "/org/xmonad/Log" "org.xmonad.Log" "Update"
   addArgs msg [String str']
   send dbus msg 0 `catchDyn` (\ (DBus.Error _ _ ) -> return 0)
