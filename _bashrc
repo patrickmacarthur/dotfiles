@@ -93,7 +93,7 @@ fi
 export VISUAL=vim
 export EDITOR=$VISUAL
 export PAGER=less
-export LESS=-QR
+export LESS=-FQR
 
 HISTSIZE=5000
 HISTFILESIZE=5000
