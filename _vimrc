@@ -5,6 +5,8 @@
 " Start out with vim (not vi) defaults
 set nocompatible
 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
 filetype plugin indent on
 
 if has("syntax")
