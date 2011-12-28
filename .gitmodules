@@ -4,3 +4,6 @@
 [submodule "_vim/bundle/vim-fugitive"]
 	path = _vim/bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
+[submodule "_vim/bundle/Liquid-Carbon"]
+	path = _vim/bundle/Liquid-Carbon
+	url = git://github.com/vim-scripts/Liquid-Carbon.git
