@@ -19,7 +19,8 @@ if has("syntax")
     syntax enable
     set hlsearch
     if $TERMBG == "dark"
-      set bg=dark
+      let g:inkpot_black_background=1
+      colorscheme inkpot
     else
       set bg=light
     endif

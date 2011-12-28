@@ -7,3 +7,6 @@
 [submodule "_vim/bundle/Liquid-Carbon"]
 	path = _vim/bundle/Liquid-Carbon
 	url = git://github.com/vim-scripts/Liquid-Carbon.git
+[submodule "_vim/bundle/inkpot"]
+	path = _vim/bundle/inkpot
+	url = git://github.com/ciaranm/inkpot.git
