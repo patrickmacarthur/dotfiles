@@ -11,13 +11,11 @@ if has("syntax")
   if has("gui_running")
     syntax enable
     set hlsearch
-    let g:liquidcarbon_high_contrast=1
-    colorscheme liquidcarbon
   elseif &t_Co >= 256
     syntax enable
     set hlsearch
     if $TERMBG == "dark"
-      colorscheme ir_black
+      set bg=dark
     else
       set bg=light
     endif
