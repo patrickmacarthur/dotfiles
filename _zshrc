@@ -37,71 +37,71 @@ zstyle ':vcs_info:*' disable bzr cdv cvs darcs mtn p4 svk tla
 # We use this to display the current SVN or git branch if necessary and update
 # the window title.
 function precmd {
-    # Gets and echoes the current svn branch that we are under
-    vcs_info
+# Gets and echoes the current svn branch that we are under
+vcs_info
 
-    # Set VCS branch
-    VCSBRANCH="$vcs_info_msg_0_"
+# Set VCS branch
+VCSBRANCH="$vcs_info_msg_0_"
 
-    # Set xterm/screen title
-    case $TERM in
-        xterm*|rxvt*|Eterm|aterm|kterm|gnome*|konsole*|interix|screen*)
-            print -Pn "\e]0;%n@%m:$(dirs)\a" ;;
-    esac
+# Set xterm/screen title
+case $TERM in
+	xterm*|rxvt*|Eterm|aterm|kterm|gnome*|konsole*|interix|screen*)
+		print -Pn "\e]0;%n@%m:$(dirs)\a" ;;
+esac
 }
 
 # Sets the prompt.  Not necessary to segregate into a function but helps
 # to organize things a bit.
 setprompt() {
-    setopt prompt_subst
-    typeset happy sad c_stat c_pwd c_branch PR_COLOR PR_RESET
+	setopt prompt_subst
+	typeset happy sad c_stat c_pwd c_branch PR_COLOR PR_RESET
 
-    # See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
-    autoload colors zsh/terminfo
-    if [[ "$terminfo[colors]" -ge 8 ]]; then
-        colors
-    fi
-    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-        eval typeset PR_$color
-        if [[ "$TERMBG" == "dark" ]]; then
-            eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-        elif [[ "$TERMBG" == "light" ]]; then
-            eval PR_$color='%{$fg[${(L)color}]%}'
-        fi
-    done
-    PR_RESET="%{$terminfo[sgr0]%}"
+	# See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
+	autoload colors zsh/terminfo
+	if [[ "$terminfo[colors]" -ge 8 ]]; then
+		colors
+	fi
+	for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+		eval typeset PR_$color
+		if [[ "$TERMBG" == "dark" ]]; then
+			eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+		elif [[ "$TERMBG" == "light" ]]; then
+			eval PR_$color='%{$fg[${(L)color}]%}'
+		fi
+	done
+	PR_RESET="%{$terminfo[sgr0]%}"
 
-    # Color of the prompt: red for superuser, cyan for all other users
-    PR_COLOR="%(!.$PR_RED.$PR_CYAN)"
+	# Color of the prompt: red for superuser, cyan for all other users
+	PR_COLOR="%(!.$PR_RED.$PR_CYAN)"
 
-    # Prompt component: status
-    happy="$PR_GREEN:-)$PR_COLOR"
-    sad="$PR_RED:-($PR_COLOR"
-    c_stat=" %(?.$happy.$sad) "
+	# Prompt component: status
+	happy="$PR_GREEN:-)$PR_COLOR"
+	sad="$PR_RED:-($PR_COLOR"
+	c_stat=" %(?.$happy.$sad) "
 
-    c_pwd="$PR_YELLOW%1~$PR_COLOR"
-    c_branch="$PR_YELLOW\$VCSBRANCH$PR_COLOR"
-    PS1="${PR_COLOR}[%!][%n@%m:${c_pwd}]${c_branch}${c_stat}%#$PR_RESET "
+	c_pwd="$PR_YELLOW%1~$PR_COLOR"
+	c_branch="$PR_YELLOW\$VCSBRANCH$PR_COLOR"
+	PS1="${PR_COLOR}[%!][%n@%m:${c_pwd}]${c_branch}${c_stat}%#$PR_RESET "
 }
 
 recolor() {
-    export TERMBG
+	export TERMBG
 
-    if [[ "$1" == "dark" || "$1" == "light" ]]; then
-        TERMBG="$1"
-    elif [[ -n "$1" ]]; then
-        echo "Usage: recolor [light|dark]" >&2
-    fi
+	if [[ "$1" == "dark" || "$1" == "light" ]]; then
+		TERMBG="$1"
+	elif [[ -n "$1" ]]; then
+		echo "Usage: recolor [light|dark]" >&2
+	fi
 
-    setprompt
+	setprompt
 
-    if [[ $(tput colors) -ge 256 && -e $HOME/.dircolors.256color ]]; then
-        eval `dircolors --sh $HOME/.dircolors.256color`
-    elif [[ -e $HOME/.dircolors.$TERMBG ]]; then
-        eval `dircolors --sh $HOME/.dircolors.$TERMBG`
-    else
-        unset LS_COLORS
-    fi
+	if [[ $(tput colors) -ge 256 && -e $HOME/.dircolors.256color ]]; then
+		eval `dircolors --sh $HOME/.dircolors.256color`
+	elif [[ -e $HOME/.dircolors.$TERMBG ]]; then
+		eval `dircolors --sh $HOME/.dircolors.$TERMBG`
+	else
+		unset LS_COLORS
+	fi
 }
 recolor
 export PS1
@@ -113,13 +113,13 @@ whence xdg-open &>/dev/null && alias open=xdg-open
 function svnlog { svn log $@ | less -R; }
 function svnhelp { svn help $@ | less -R; }
 function svndiff {
-    typeset filter
-    if whence colordiff &>/dev/null; then
-        filter=colordiff
-    else
-        filter=cat
-    fi
-    svn diff --no-diff-deleted $@ | $filter | less -R;
+typeset filter
+if whence colordiff &>/dev/null; then
+	filter=colordiff
+else
+	filter=cat
+fi
+svn diff --no-diff-deleted $@ | $filter | less -R;
 }
 
 # Make stuff
@@ -130,12 +130,12 @@ alias mk3="make -j3"
 # we want.
 whence colordiff &>/dev/null && alias diff=colordiff
 if [[ $OSTYPE == "linux" || $OSTYPE == "linux-gnu" ]]; then
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
+	alias ls='ls --color=auto'
+	alias grep='grep --color=auto'
 elif [[ $(uname -s) == "FreeBSD" ]]; then
-    alias ls='ls -G'
+	alias ls='ls -G'
 else
-    alias ls='ls -F'
+	alias ls='ls -F'
 fi
 
 alias head='head -n $(($LINES-5))'
