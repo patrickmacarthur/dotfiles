@@ -86,6 +86,8 @@ esac
 if [ $OSTYPE == "linux" -o $OSTYPE == "linux-gnu" ]; then
 	alias ls="ls --color=auto"
 	export GREP_OPTIONS="$GREP_OPTIONS --color=auto -n"
+elif [[ $(uname -s) == "FreeBSD" ]]; then
+	alias ls='ls -G'
 else
 	alias ls='ls -F'
 fi
