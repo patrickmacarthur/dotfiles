@@ -2,9 +2,10 @@
 " Maintainer:	Patrick MacArthur <generalpenguin89@gmail.com>
 
 setlocal autoindent
-setlocal tabstop=8
-setlocal shiftwidth=8
 setlocal noexpandtab
+setlocal shiftwidth=8
+setlocal tabstop=8
+setlocal textwidth=80
 
 " C indentation
 setlocal cindent
