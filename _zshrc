@@ -110,16 +110,16 @@ export PS1
 whence xdg-open &>/dev/null && alias open=xdg-open
 
 # SVN functions
-function svnlog { svn log $@ | less -R; }
-function svnhelp { svn help $@ | less -R; }
-function svndiff {
-typeset filter
-if whence colordiff &>/dev/null; then
-	filter=colordiff
-else
-	filter=cat
-fi
-svn diff --no-diff-deleted $@ | $filter | less -R;
+svnlog() { svn log $@ | less -R; }
+svnhelp() { svn help $@ | less -R; }
+svndiff() {
+	typeset filter
+	if whence colordiff &>/dev/null; then
+		filter=colordiff
+	else
+		filter=cat
+	fi
+	svn diff --no-diff-deleted $@ | $filter | less -R;
 }
 
 # Make stuff
