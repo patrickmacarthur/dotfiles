@@ -82,7 +82,7 @@ esac
 # Colorization and other support for colorization in GNU tools.  If we don't
 # have GNU tools, use POSIX options that give us something close to what we
 # want.
-type colordiff >/dev/null 2>&1 && alias diff=colordiff
+[[ -n "$(type -t colordiff)" ]] && alias diff=colordiff
 if [ $OSTYPE == "linux" -o $OSTYPE == "linux-gnu" ]; then
 	alias ls="ls --color=auto"
 	export GREP_OPTIONS="$GREP_OPTIONS --color=auto -n"

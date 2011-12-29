@@ -107,12 +107,12 @@ fi
 export TERMBG
 
 # Let us know if we've got running screen sessions
-if [ -x /usr/bin/screen ]; then
+if [[ -n $(type -t screen) ]]; then
 	screen -ls
 fi
 
 # Display something witty :)
-if type fortune >/dev/null 2>&1; then
+if [[ -n $(type -t fortune) ]]; then
 	fortune
 fi
 
