@@ -5,8 +5,6 @@
 # options, key bindings, etc.
 #
 # Patrick MacArthur
-#
-# vim: set filetype=zsh :
 
 typeset -U path
 path=(~/bin $path)
@@ -36,18 +34,19 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' disable bzr cdv cvs darcs mtn p4 svk tla
 
 # Commands to run before the command prompt (PS1) is displayed.
-# We use this to display the current SVN branch if necessary and update
+# We use this to display the current SVN or git branch if necessary and update
 # the window title.
 function precmd {
     # Gets and echoes the current svn branch that we are under
     vcs_info
 
-    # Set SVN branch
-    SVNBRANCH="$vcs_info_msg_0_"
+    # Set VCS branch
+    VCSBRANCH="$vcs_info_msg_0_"
 
     # Set xterm/screen title
     case $TERM in
-        xterm*|screen*) print -Pn "\e]0;[%!] %n@%m:%~\a" ;;
+        xterm*|rxvt*|Eterm|aterm|kterm|gnome*|konsole*|interix|screen*)
+            print -Pn "\e]0;%n@%m:$(dirs)\a" ;;
     esac
 }
 
@@ -55,6 +54,7 @@ function precmd {
 # to organize things a bit.
 setprompt() {
     setopt prompt_subst
+    typeset happy sad c_stat c_pwd c_branch PR_COLOR PR_RESET
 
     # See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
     autoload colors zsh/terminfo
@@ -62,57 +62,93 @@ setprompt() {
         colors
     fi
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-        eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-        eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-        (( count = $count + 1 ))
+        eval typeset PR_$color
+        if [[ "$TERMBG" == "dark" ]]; then
+            eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+        elif [[ "$TERMBG" == "light" ]]; then
+            eval PR_$color='%{$fg[${(L)color}]%}'
+        fi
     done
-    PR_NO_COLOR="%{$terminfo[sgr0]%}"
+    PR_RESET="%{$terminfo[sgr0]%}"
 
-    happy="$PR_BLUE:-)$PR_CYAN"
-    sad="$PR_RED:-($PR_CYAN"
+    # Color of the prompt: red for superuser, cyan for all other users
+    PR_COLOR="%(!.$PR_RED.$PR_CYAN)"
 
-    export PS1="$bgcolor%(!.$PR_RED.$PR_CYAN)[%!] %n@%m:%~$PR_YELLOW\
-\$SVNBRANCH$PR_CYAN %(?.$happy.$sad) %#$PR_NO_COLOR "
+    # Prompt component: status
+    happy="$PR_GREEN:-)$PR_COLOR"
+    sad="$PR_RED:-($PR_COLOR"
+    c_stat=" %(?.$happy.$sad) "
+
+    c_pwd="$PR_YELLOW%1~$PR_COLOR"
+    c_branch="$PR_YELLOW\$VCSBRANCH$PR_COLOR"
+    PS1="${PR_COLOR}[%!][%n@%m:${c_pwd}]${c_branch}${c_stat}%#$PR_RESET "
 }
 
-setprompt
+recolor() {
+    export TERMBG
 
-# colorize grep and stuff
-if whence -p colordiff >/dev/null 2>&1; then
-    alias diff='colordiff'
-    function svndiff {
-        svn diff --no-diff-deleted $@ | colordiff | less -R;
-    }
-else
-    function svndiff {
-        svn diff --no-diff-deleted $@ | less -R;
-    }
-fi
+    if [[ "$1" == "dark" || "$1" == "light" ]]; then
+        TERMBG="$1"
+    elif [[ -n "$1" ]]; then
+        echo "Usage: recolor [light|dark]" >&2
+    fi
 
-alias grep='grep --color=auto'
+    setprompt
 
+    if [[ $(tput colors) -ge 256 && -e $HOME/.dircolors.256color ]]; then
+        eval `dircolors --sh $HOME/.dircolors.256color`
+    elif [[ -e $HOME/.dircolors.$TERMBG ]]; then
+        eval `dircolors --sh $HOME/.dircolors.$TERMBG`
+    else
+        unset LS_COLORS
+    fi
+}
+recolor
+export PS1
+
+# Make an open like Mac OS X has
+whence xdg-open &>/dev/null && alias open=xdg-open
+
+# SVN functions
 function svnlog { svn log $@ | less -R; }
 function svnhelp { svn help $@ | less -R; }
+function svndiff {
+    typeset filter
+    if whence colordiff &>/dev/null; then
+        filter=colordiff
+    else
+        filter=cat
+    fi
+    svn diff --no-diff-deleted $@ | $filter | less -R;
+}
 
 # Make stuff
 alias mk3="make -j3"
 
-if [[ $(uname -s) == "Linux" ]]; then
+# Colorization and other support for colorization in GNU tools.  If we don't
+# have GNU tools, use BSD or POSIX options that give us something close to what
+# we want.
+whence colordiff &>/dev/null && alias diff=colordiff
+if [[ $OSTYPE == "linux" || $OSTYPE == "linux-gnu" ]]; then
     alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
 elif [[ $(uname -s) == "FreeBSD" ]]; then
     alias ls='ls -G'
+else
+    alias ls='ls -F'
 fi
-alias l="ls -lF"
-alias ll="ls -l"
 
 alias head='head -n $(($LINES-5))'
 alias tail='tail -n $(($LINES-5))'
 
 export VISUAL=vim
 export EDITOR=$VISUAL
-export LESS="-QR"
+export PAGER=less
+export LESS=-FQR
 
 # cd without typing 'cd'
 setopt autocd
 
 source $HOME/.zshrc.local
+
+# vim: set filetype=zsh :
