@@ -8,7 +8,6 @@ set nocompatible
 " Load all plugins that I've installed into .vim/bundle
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
-filetype plugin indent on
 
 if has("syntax")
   if has("gui_running")
@@ -157,7 +156,11 @@ if filereadable(expand("$HOME/.vimrc.local"))
   source $HOME/.vimrc.local
 endif
 
+" Unhighlight any previous searches because I find it annoying
 nohlsearch
+
+" Automatically detect filetypes and use the appropriate plugins
+filetype plugin indent on
 
 " End .vimrc
 "
