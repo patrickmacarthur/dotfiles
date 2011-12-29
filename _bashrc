@@ -90,6 +90,9 @@ else
 	alias ls='ls -F'
 fi
 
+# Make an open like Mac OS X has
+[[ -n "$(type -t xdg-open)" ]] && alias open=xdg-open
+
 export VISUAL=vim
 export EDITOR=$VISUAL
 export PAGER=less
