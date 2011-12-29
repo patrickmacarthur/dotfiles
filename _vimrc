@@ -5,6 +5,7 @@
 " Start out with vim (not vi) defaults
 set nocompatible
 
+" Load all plugins that I've installed into .vim/bundle
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
 filetype plugin indent on
@@ -57,27 +58,19 @@ endif
 " one of them does, run :help <name> from within vim.
 set autoindent
 set nobackup
-set cinoptions=:0
 set noesckeys
-set noexpandtab
 set number
 set matchtime=2
 set incsearch
 set printoptions=paper:letter,duplex:off
 set pastetoggle=<f11>
 set ruler
-set shiftwidth=8
 set showcmd
 set showmode
 set showmatch
-set smartindent
 set smarttab
-set tabstop=8
 set wildmenu
 set wrapmargin=8
-
-" set comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-" set formatoptions+=croql
 
 " Enable saving things into viminfo.  However, vim will complain if we try to
 " use a newer feature in an older version, so test the version before enabling
@@ -94,30 +87,7 @@ endif
 let g:is_posix = 1
 
 " Highlight whitespace at end of line.
-" New version: on only for C/C++ files, but also handles spaces before
-" tabs and stuff like that
 let c_space_errors = 1
-
-
-" Insert automatically generated C++ input operator>> for current class
-function! CPPInputOperator()
-  read !echo "istream & operator >> ( istream & s, `basename % .C` & v )"
-  read !echo "{"
-  read !echo "    v.input( s );"
-  read !echo "    return s;"
-  read !echo "}"
-  read !echo
-endfunction
-
-" Insert automatically generated C++ output operator<< for current class
-function! CPPOutputOperator()
-  read !echo "ostream & operator << ( ostream & s, const `basename % .C` & v )"
-  read !echo "{"
-  read !echo "    v.output( s );"
-  read !echo "    return s;"
-  read !echo "}"
-  read !echo
-endfunction
 
 " Insert a simple Haskell header comment
 function! s:HSHeader()
@@ -162,24 +132,6 @@ function! s:PosixCHeader()
     :-2
 endfunction
 
-" C folding
-" - reserve 1 column on the left for folding tree, assuming > 80 columns
-" - fold by syntax, use {}'s
-" - only fold outermost entities
-function! s:EnableCFolding()
-  setlocal foldmethod=marker
-  setlocal foldnestmax=2
-  if winwidth(0) > 90
-    setlocal foldcolumn=4
-  endif
-endfunction
-
-function! s:SetSMLIndent()
-  set shiftwidth=4
-  set tabstop=4
-  set wrapmargin=0
-endfunction
-
 if has("autocmd")
   augroup vimrc_autocmds
     " Clear existing autocmds
@@ -188,11 +140,6 @@ if has("autocmd")
     " C/C++
     autocmd BufNewFile *.h call <SID>PosixHHeader()
     autocmd BufNewFile *.c call <SID>PosixCHeader()
-    autocmd BufReadPost,BufNewFile *.h,*.hh,*.hpp call <SID>EnableCFolding()
-    autocmd BufReadPost,BufNewFile *.c,*.cc,*.cpp,*.C call <SID>EnableCFolding()
-
-    " SML
-    autocmd BufReadPost,BufNewFile *.sml call <SID>SetSMLIndent()
 
     " Haskell
     autocmd BufNewFile *.hs call <SID>HSHeader()
