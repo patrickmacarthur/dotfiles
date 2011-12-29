@@ -12,9 +12,10 @@ setlocal cindent
 setlocal cinoptions=& cinoptions=:0
 
 " C folding
-" - reserve 1 column on the left for folding tree, assuming > 80 columns
-" - fold by syntax, use {}'s
-" - only fold outermost entities
+" - Fold using markers, since I hate the way that vim folds C-style comments.
+"   I want markers in the rare case I'm dealing with a gigantic C source file.
+" - Reserve 4 column on the left for folding tree, but only if we have room
+"   for them.
 setlocal foldmethod=marker
 setlocal foldnestmax=2
 if winwidth(0) > 90
