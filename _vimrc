@@ -5,6 +5,8 @@
 " Start out with vim (not vi) defaults
 set nocompatible
 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
 filetype plugin indent on
 
 if has("syntax")
@@ -17,7 +19,8 @@ if has("syntax")
     syntax enable
     set hlsearch
     if $TERMBG == "dark"
-      colorscheme ir_black
+      let g:inkpot_black_background=1
+      colorscheme inkpot
     else
       set bg=light
     endif
