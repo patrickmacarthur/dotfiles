@@ -10,7 +10,7 @@
 # (based on my bash_profile)
 
 if [[ ! -o interactive ]]; then
-	exit
+	return
 fi
 
 if [[ -n "$DISPLAY" ]]; then
