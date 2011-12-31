@@ -15,24 +15,18 @@ if has("syntax")
     set hlsearch
     let g:liquidcarbon_high_contrast=1
     colorscheme liquidcarbon
-  elseif &t_Co >= 256
+  elseif &t_Co > 2
     syntax enable
     set hlsearch
     if $TERMBG == "dark"
-      let g:inkpot_black_background=1
-      colorscheme inkpot
-    else
-      set bg=light
-    endif
-  elseif &t_Co > 2
-    if $TERMBG == "dark"
-      set background=dark
-      syntax enable
-      set hlsearch
+      if &t_Co >= 256
+        let g:inkpot_black_background=1
+        colorscheme inkpot
+      else
+        set background=dark
+      endif
     elseif $TERMBG == "light"
       set background=light
-      syntax enable
-      set hlsearch
     else
       syntax off
       set nohlsearch
