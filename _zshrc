@@ -9,6 +9,10 @@
 typeset -U path
 path=(~/bin $path)
 
+# Set all of my functions to autoload on first call.
+fpath=($fpath ~/.zsh/functions)
+autoload -U ~/.zsh/functions/*(:t)
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=5000
