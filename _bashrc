@@ -66,6 +66,12 @@ function recolor()
 		unset LS_COLORS
 	fi
 }
+
+# Set background color
+if [[ -z "$TERMBG" && -f $HOME/.termbg.$TERM ]]; then
+	source $HOME/.termbg.$TERM
+	export TERMBG
+fi
 recolor
 export PS1
 
