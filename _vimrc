@@ -141,6 +141,7 @@ if has("autocmd")
     " C/C++
     autocmd BufNewFile *.h call <SID>PosixHHeader()
     autocmd BufNewFile *.c call <SID>PosixCHeader()
+    autocmd BufNewFile *.cxx,*.cpp,*.cc call <SID>CXXHeader()
 
     " Haskell
     autocmd BufNewFile *.hs call <SID>HSHeader()
