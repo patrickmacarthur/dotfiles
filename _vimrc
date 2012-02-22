@@ -91,10 +91,8 @@ endfunction
 " Creates the header for a header file, assuming current file is .h and empty
 function! s:PosixHHeader()
   -1   !echo "/* %"
-  read !echo " *"
-  read !echo " * Description of this file goes here (TODO)"
-  read !echo " *"
   read !echo " * Patrick MacArthur <pio3@wildcats.unh.edu>"
+  read !echo " * Description of this file goes here (TODO)"
   read !echo " */"
   read !echo
   read !echo -n "\#ifndef " ; echo % | tr '[:lower:].' '[:upper:]_'
@@ -106,13 +104,23 @@ function! s:PosixHHeader()
   :-3
 endfunction
 
+" Creates the header for a C++ file, assuming current file is empty
+function! s:CXXHeader()
+    -1   !echo "/* %"
+    read !echo " * Patrick MacArthur <pio3@wildcats.unh.edu>"
+    read !echo " * Description of this file goes here (TODO)"
+    read !echo " */"
+    read !echo
+    read !echo
+    read !echo "/* vim: set shiftwidth=8 tabstop=8 noexpandtab : */"
+    :-2
+endfunction
+
 " Creates the header for a .c file, assuming current file is empty
 function! s:PosixCHeader()
     -1   !echo "/* %"
-    read !echo " *"
-    read !echo " * Description of this file goes here (TODO)"
-    read !echo " *"
     read !echo " * Patrick MacArthur <pio3@wildcats.unh.edu>"
+    read !echo " * Description of this file goes here (TODO)"
     read !echo " */"
     read !echo
     read !echo -n "\#define _POSIX_C_SOURCE 200112L"
