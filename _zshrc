@@ -17,8 +17,12 @@ autoload -U ~/.zsh/functions/*(:t)
 HISTFILE=~/.histfile
 HISTSIZE=5000
 SAVEHIST=5000
-bindkey -v
 # End of lines configured by zsh-newuser-install
+
+bindkey -v
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/patrick/.zshrc'
 

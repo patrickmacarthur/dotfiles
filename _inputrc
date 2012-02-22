@@ -13,6 +13,12 @@ set bell-style none
 # custom keybindings in either mode.
 set editing-mode vi
 
+# For rxvt home/end keys
+$if term=rxvt
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+$endif
+
 # Include local settings.
 $include ~/.inputrc.local
 
