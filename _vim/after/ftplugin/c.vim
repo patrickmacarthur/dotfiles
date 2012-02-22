@@ -7,9 +7,9 @@ setlocal shiftwidth=8
 setlocal tabstop=8
 setlocal textwidth=80
 
-" C indentation
+" C/C++ indentation
 setlocal cindent
-setlocal cinoptions=& cinoptions=:0
+setlocal cinoptions=& cinoptions=:0,g0,N-s
 
 " C folding
 " - Fold using markers, since I hate the way that vim folds C-style comments.
