@@ -124,8 +124,6 @@ function! s:PosixCHeader()
     read !echo " */"
     read !echo
     read !echo -n "\#define _POSIX_C_SOURCE 200112L"
-    read !echo -n "\#define _ISOC99_SOURCE"
-    read !echo -n "\#define __EXTENSIONS__"
     read !echo -n "\#define _XOPEN_SOURCE 600"
     read !echo
     read !echo
