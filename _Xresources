@@ -1,0 +1,36 @@
+! .Xresources
+! Patrick MacArthur
+
+URxvt*iconFile:		/usr/share/icons/HighContrast/scalable/apps/utilities-terminal.svg
+URxvt.font:		xft:Inconsolata-8
+URxvt.boldFont:		xft:Inconsolata-8:bold
+URxvt.italicFont:	xft:Inconsolata-8:italic:autohint=true
+URxvt.boldItalicFont:	xft:Inconsolata-8:bold:italic:autohint=true
+URxvt.scrollBar:	off
+
+! terminal colors -- Tango from gnome-terminal
+*color0:		#000000
+*color8:		#555753
+*color1:		#CC0000
+*color9:		#EF2929
+*color2:		#4E9A06
+*color10:		#8AE234
+*color3:		#C4A000
+*color11:		#FCE94F
+*color4:		#3465A4
+*color12:		#729FCF
+*color5:		#75507B
+*color13:		#AD7FA8
+*color6:		#06989A
+*color14:		#34E2E2
+*color7:		#D3D7CF
+*color15:		#EEEEEC
+
+darkterm*background:	#000000
+darkterm*foreground:	#EEEEEC
+
+lightterm*background:	#FFFFFF
+lightterm*foreground:	#000000
+
+URxvt*keysym.Home:	\033[1~
+URxvt*keysym.End:	\033[4~
