@@ -10,3 +10,6 @@
 [submodule "_vim/bundle/inkpot"]
 	path = _vim/bundle/inkpot
 	url = git://github.com/ciaranm/inkpot.git
+[submodule "_vim/bundle/quicktask"]
+	path = _vim/bundle/quicktask
+	url = https://github.com/aaronbieber/quicktask.git
