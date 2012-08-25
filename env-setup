@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+# Taken from https://github.com/staticsafe/dotfiles on 2012-08-16.
+# Updated significantly.
+
+# Basic requirements - bash, sudo (Also make sure your user has sudo privileges!)
+
+# a die function as always
+die() {
+	printf '%s\n' "$@" >&2
+	exit 1
+}
+
+# Some variable(s)
+
+userdistro="NULL"
+repo="git://github.com/generalpenguin89/dotfiles.git"
+
+dotfilesdir="src/dotfiles"
+files=(bash_logout bash_profile bashrc cvsignore inputrc tmux.conf vim vimrc zlogin zsh zshrc)
+
+# Lets get this party on the road, shall we?
+
+sudocheck() {
+	hash sudo &>/dev/null || die 'sudo does not exist, exiting'
+	printf '%s\n' "sudo check : PASSED"
+}
+
+distrocheck() {
+	hash apt-get &>/dev/null && userdistro="Debian" # For Debian based distros.
+	hash yum &>/dev/null && userdistro="Fedora" # For RHEL/CentOS/Fedora
+	hash pacman &>/dev/null && userdistro="Arch" # For Arch Linux
+	hash pkg_add &>/dev/null && userdistro="FreeBSD" # For FreeBSD
+}
+
+installpackages() {
+	if [[ "$userdistro" == "Debian" ]]; then
+		sudo apt-get install --assume-yes \
+			vim zsh screen git subversion
+	elif [[ "$userdistro" == "Fedora" ]]; then
+		sudo yum install -y \
+			vim zsh screen git subversion
+	elif [[ "$userdistro" == "Arch" ]]; then
+		sudo pacman --noconfirm -S \
+			vim zsh screen git subversion
+	elif [[ "$userdistro" == "FreeBSD" && $(uname -s) == "FreeBSD" ]]; then
+		sudo pkg_add -r \
+			vim zsh screen git subversion
+	else
+		printf '%s\n' "Your distro's package manager is not supported in this script, continuing with changing shell & linking dotfiles."
+	fi
+}
+
+changeshell() {
+	if [[ $SHELL == $(command -v zsh) ]]; then
+		printf '%s\n' "Your default shell is already zsh, continuing."
+	else
+		chsh -s $(command -v zsh)
+		printf '%s\n' "Default shell changed to zsh, logout and login to see changes"
+	fi
+}
+
+linkfiles() {
+	for i in "${files[@]}"; do
+		if [[ -L ${HOME}/.$i && "$(readlink -e ${HOME}/.$i)" == "${HOME}/${dotfilesdir}/_$i" ]]; then
+			printf '%s\n' "$i already up-to-date"
+			continue
+		fi
+
+		if [[ -e ${HOME}/.$i ]]; then
+			printf '%s\n' "back up previous $i"
+			rm -f ${HOME}/.$i~
+			mv -f ${HOME}/.$i ${HOME}/.$i~
+		fi
+		printf '%s\n' "symlink $i"
+		ln -sf ${dotfilesdir}/_$i ${HOME}/.$i
+		if [[ -f ${HOME}/.$i ]]; then
+			# Create a .local file if we just copied a regular
+			# file, i.e., not a directory
+			printf '%s\n' "create local $i"
+			touch ${HOME}/.$i.local
+		fi
+	done
+	echo touch ~/.zhistory
+}
+
+
+getdotfiles() {
+	if [[ -d ${dotfilesdir} ]]; then
+		cd ${dotfilesdir}
+		git pull
+		git submodule update
+		linkfiles
+	else
+		mkdir -p ${dotfilesdir}
+		git clone $repo ${dotfilesdir}
+		cd ${dotfilesdir}
+		git submodule update --init
+		linkfiles
+	fi
+}
+
+sudocheck
+distrocheck
+installpackages
+changeshell
+getdotfiles
+exec zsh
