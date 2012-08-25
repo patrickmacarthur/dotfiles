@@ -65,7 +65,8 @@ setprompt() {
 	typeset happy sad c_stat c_pwd c_branch PR_COLOR PR_RESET
 
 	# See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
-	autoload colors zsh/terminfo
+	zmodload zsh/terminfo
+	autoload colors
 	if [[ "$terminfo[colors]" -ge 8 ]]; then
 		colors
 	fi
