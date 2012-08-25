@@ -180,6 +180,9 @@ export LESS=-FQR
 # cd without typing 'cd'
 setopt autocd
 
+# Ignore EOF
+setopt ignoreeof
+
 source $HOME/.zshrc.local
 
 # vim: set filetype=zsh :
