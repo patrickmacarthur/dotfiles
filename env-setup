@@ -19,11 +19,14 @@ repo="git://github.com/generalpenguin89/dotfiles.git"
 dotfilesdir="src/dotfiles"
 files=(bash_logout bash_profile bashrc cvsignore inputrc tmux.conf vim vimrc zlogin zprofile zsh zshrc)
 
+can_sudo=0
+
 # Lets get this party on the road, shall we?
 
 sudocheck() {
 	hash sudo &>/dev/null || die 'sudo does not exist, exiting'
 	printf '%s\n' "sudo check : PASSED"
+	can_sudo=1
 }
 
 distrocheck() {
@@ -34,6 +37,11 @@ distrocheck() {
 }
 
 installpackages() {
+	if [[ $can_sudo -eq 0 ]]; then
+		printf '%s\n' " * You do not appear to have sudo rights." >&2
+		printf '%s\n' " * Not installing packages." >&2
+		return
+	fi
 	if [[ "$userdistro" == "Debian" ]]; then
 		sudo apt-get install --assume-yes \
 			vim zsh screen git subversion
@@ -100,7 +108,20 @@ getdotfiles() {
 	fi
 }
 
-sudocheck
+usage() {
+	printf 'Usage: %s [-s]\n' "$0"
+}
+
+while getopts "sh" opt; do
+	case $opt in
+		h) usage ; exit 0 ;;
+		s) sudocheck ;;
+		'?'|':') exit 1 ;;
+		*) printf 'Internal error: unknown option %c\n' $opt >&2
+			exit 1 ;;
+	esac
+done
+
 distrocheck
 installpackages
 changeshell
