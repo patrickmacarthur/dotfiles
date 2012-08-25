@@ -97,6 +97,22 @@ recolor() {
 
 	if [[ "$1" == "dark" || "$1" == "light" ]]; then
 		TERMBG="$1"
+	elif [[ -n "$COLORFGBG" ]]; then
+		bgcolor=$(cut -d\; -f3 <<<"$COLORFGBG")
+		if [[ -z "$bgcolor" ]]; then
+			bgcolor=$(cut -d\; -f2 <<<"$COLORFGBG")
+		fi
+		if [[ -n "$bgcolor" && "$bgcolor" != "default"
+				&& "$bgcolor" -ge 0
+				&& "$bgcolor" -le 8
+				&& "$bgcolor" -ne 7 ]]
+		then
+			printf "%s\n" "$bgcolor"
+			TERMBG="dark"
+		else
+			TERMBG="light"
+		fi
+		unset bgcolor
 	elif [[ -n "$1" ]]; then
 		echo "Usage: recolor [light|dark]" >&2
 	fi
