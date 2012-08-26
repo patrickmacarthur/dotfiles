@@ -104,15 +104,15 @@ linkfiles() {
 
 
 getdotfiles() {
-	if [[ -d ${dotfilesdir} ]]; then
-		cd ${dotfilesdir}
+	if [[ -d ${HOME}/${dotfilesdir} ]]; then
+		cd ${HOME}/${dotfilesdir}
 		git pull
 		git submodule update
 		linkfiles
 	else
-		mkdir -p ${dotfilesdir}
-		git clone $repo ${dotfilesdir}
-		cd ${dotfilesdir}
+		mkdir -p ${HOME}/${dotfilesdir}
+		git clone $repo ${HOME}/${dotfilesdir}
+		cd ${HOME}/${dotfilesdir}
 		git submodule update --init
 		linkfiles
 	fi
