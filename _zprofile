@@ -72,3 +72,8 @@ if [[ -z "$SCREEN_COLORS" ]]; then
 	SCREEN_COLORS=$(tput colors)
 fi
 
+# Do anything else we should do for just this system
+if [[ -f ~/.zprofile.local ]]; then
+	source ~/.zprofile.local
+fi
+

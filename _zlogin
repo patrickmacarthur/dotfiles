@@ -42,3 +42,7 @@ if whence fortune &>/dev/null; then
 	fortune
 fi
 
+# Do anything else we should do for just this system
+if [[ -f ~/.zlogin.local ]]; then
+	source ~/.zlogin.local
+fi

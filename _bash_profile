@@ -130,6 +130,8 @@ if [[ -n $(type -t fortune) ]]; then
 	fortune
 fi
 
+[[ -f ~/.bash_profile.local ]] && . ~/.bash_profile.local
+
 # This file is sourced by bash for login shells.  The following line
 # runs your .bashrc and is recommended by the bash info pages.
 [[ -f ~/.bashrc ]] && . ~/.bashrc
