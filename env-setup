@@ -60,10 +60,20 @@ installpackages() {
 }
 
 changeshell() {
-	if [[ $SHELL == $(command -v zsh) ]]; then
+	if [[ $(basename ${SHELL}) == "zsh" ]]; then
 		printf '%s\n' "Your default shell is already zsh, continuing."
 	else
-		chsh -s $(command -v zsh)
+		new_shell_path=/bin/zsh
+		if [[ ! -x "${new_shell_path}" ]]; then
+			new_shell_path="$(command -v zsh)"
+			if [[ ! -x "${new_shell_path}" ]]; then
+				printf ' * %s\n' \
+					"zsh not found; not changing default shell!" \
+					>&2
+				return
+			fi
+		fi
+		chsh -s "${new_shell_path}"
 		printf '%s\n' "Default shell changed to zsh, logout and login to see changes"
 	fi
 }
