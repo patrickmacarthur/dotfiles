@@ -17,7 +17,7 @@ userdistro="NULL"
 repo="git://github.com/generalpenguin89/dotfiles.git"
 
 dotfilesdir="src/dotfiles"
-files=(bash_logout bash_profile bashrc cvsignore inputrc tmux.conf vim vimrc zlogin zprofile zsh zshrc)
+files=(Xresources bash_logout bash_profile bashrc cvsignore inputrc tmux.conf vim vimrc zlogin zprofile zsh zshrc)
 
 can_sudo=0
 
