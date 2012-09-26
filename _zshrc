@@ -72,10 +72,10 @@ setprompt() {
 	fi
 	for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
 		eval typeset PR_$color
-		if [[ "$TERMBG" == "dark" ]]; then
-			eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-		elif [[ "$TERMBG" == "light" ]]; then
+		if [[ "$TERMBG" == "light" || "$TERMBG" == "solarized" ]]; then
 			eval PR_$color='%{$fg[${(L)color}]%}'
+		elif [[ "$TERMBG" == "dark" ]]; then
+			eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
 		fi
 	done
 	PR_RESET="%{$terminfo[sgr0]%}"
@@ -96,8 +96,12 @@ setprompt() {
 recolor() {
 	export TERMBG
 
-	if [[ "$1" == "dark" || "$1" == "light" ]]; then
+	if [[ "$1" == "dark" || "$1" == "light" || "$1" == "solarized" ]]; then
 		TERMBG="$1"
+	elif [[ -e "$HOME/.termbg.$TERM" ]]; then
+		source $HOME/.termbg.$TERM
+	elif [[ -e "$HOME/.termbg" ]]; then
+		source $HOME/.termbg
 	elif [[ -n "$COLORFGBG" ]]; then
 		bgcolor=$(cut -d\; -f3 <<<"$COLORFGBG")
 		if [[ -z "$bgcolor" ]]; then

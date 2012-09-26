@@ -29,9 +29,13 @@ function recolor()
 	local normal red green yellow blue purple cyan white
 	local happy sad stat
 
-	if [[ "z$1" == "zdark" || "z$1" == "zlight" ]]; then
+	if [[ "$1" == "dark" || "$1" == "light" || "$1" == "solarized" ]]; then
 		TERMBG="$1"
-	elif [[ -n "$COLORTERM" ]]; then
+	elif [[ -e "$HOME/.termbg.$TERM" ]]; then
+		source $HOME/.termbg.$TERM
+	elif [[ -e "$HOME/.termbg" ]]; then
+		source $HOME/.termbg
+	elif [[ -n "$COLORFGBG" ]]; then
 		bgcolor=$(cut -d\; -f3 <<<"$COLORFGBG")
 		if [[ -z "$bgcolor" ]]; then
 			bgcolor=$(cut -d\; -f2 <<<"$COLORFGBG")
@@ -48,7 +52,7 @@ function recolor()
 		unset bgcolor
 	fi
 
-	if [[ "z$TERMBG" == "zdark" ]]; then
+	if [[ "$TERMBG" == "dark" ]]; then
 		normal='\[\e[0m\]'
 		red='\[\e[31;1m\]'
 		green='\[\e[32;1m\]'
@@ -57,7 +61,7 @@ function recolor()
 		purple='\[\e[35;1m\]'
 		cyan='\[\e[36;1m\]'
 		white='\[\e[37;1m\]'
-	elif [[ "z$TERMBG" == "zlight" ]]; then
+	elif [[ "$TERMBG" == "light" || "$TERMBG" == "solarized" ]]; then
 		normal='\[\e[0m\]'
 		red='\[\e[31m\]'
 		green='\[\e[32m\]'
@@ -81,12 +85,8 @@ function recolor()
 }
 
 # Set background color
-if [[ -z "$TERMBG" && -f $HOME/.termbg.$TERM ]]; then
-	source $HOME/.termbg.$TERM
-	export TERMBG
-fi
 recolor
-export PS1
+export PS1 TERMBG
 
 # Change the window title of X terminals 
 case ${TERM} in
