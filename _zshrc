@@ -108,7 +108,6 @@ recolor() {
 				&& "$bgcolor" -le 8
 				&& "$bgcolor" -ne 7 ]]
 		then
-			printf "%s\n" "$bgcolor"
 			TERMBG="dark"
 		else
 			TERMBG="light"
@@ -124,8 +123,6 @@ recolor() {
 		eval `dircolors --sh $HOME/.dircolors.256color`
 	elif [[ -e $HOME/.dircolors.$TERMBG ]]; then
 		eval `dircolors --sh $HOME/.dircolors.$TERMBG`
-	else
-		unset LS_COLORS
 	fi
 }
 

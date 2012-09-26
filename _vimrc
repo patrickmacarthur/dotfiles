@@ -13,24 +13,11 @@ if has("syntax")
   if has("gui_running")
     syntax enable
     set hlsearch
-    let g:liquidcarbon_high_contrast=1
-    colorscheme liquidcarbon
+    colorscheme solarized
   elseif &t_Co > 2
     syntax enable
     set hlsearch
-    if $TERMBG == "dark"
-      if &t_Co >= 256
-        let g:inkpot_black_background=1
-        colorscheme inkpot
-      else
-        set background=dark
-      endif
-    elseif $TERMBG == "light"
-      set background=light
-    else
-      syntax off
-      set nohlsearch
-    endif
+    colorschem solarized
   else
     syntax off
     set nohlsearch

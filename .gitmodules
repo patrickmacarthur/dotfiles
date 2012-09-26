@@ -13,3 +13,6 @@
 [submodule "_vim/bundle/quicktask"]
 	path = _vim/bundle/quicktask
 	url = https://github.com/aaronbieber/quicktask.git
+[submodule "_vim/bundle/altercation"]
+	path = _vim/bundle/altercation
+	url = git://github.com/altercation/vim-colors-solarized.git
