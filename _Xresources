@@ -39,9 +39,6 @@
 #define S_cyan          #2aa198
 #define S_green         #859900
 
-!*background:            S_base3
-!*foreground:            S_base0
-!*fadeColor:             S_base3
 *fading:                40
 *cursorColor:           S_base01
 *pointerColorBackground:S_base1
@@ -49,11 +46,11 @@
 
 urxvt-dark*background:	S_base03
 urxvt-dark*foreground:	S_base00
-urxvt-dark*fadeColor:   S_base03
+urxvt-dark*fadeColor:   S_base02
 
 *background:	S_base3
 *foreground:	S_base0
-*fadeColor:  S_base3
+*fadeColor:  S_base2
 
 
 !! black dark/light
