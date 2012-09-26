@@ -39,13 +39,22 @@
 #define S_cyan          #2aa198
 #define S_green         #859900
 
-*background:            S_base3
-*foreground:            S_base0
+!*background:            S_base3
+!*foreground:            S_base0
+!*fadeColor:             S_base3
 *fading:                40
-*fadeColor:             S_base3
 *cursorColor:           S_base01
 *pointerColorBackground:S_base1
 *pointerColorForeground:S_base01
+
+urxvt-dark*background:	S_base03
+urxvt-dark*foreground:	S_base00
+urxvt-dark*fadeColor:   S_base03
+
+*background:	S_base3
+*foreground:	S_base0
+*fadeColor:  S_base3
+
 
 !! black dark/light
 *color0:                S_base02
@@ -85,12 +94,6 @@ URxvt.boldFont:		xft:Inconsolata-8
 URxvt.italicFont:	xft:Inconsolata-8:italic:autohint=true
 URxvt.boldItalicFont:	xft:Inconsolata-8:italic:autohint=true
 URxvt.scrollBar:	off
-
-!darkterm*background:	#000000
-!darkterm*foreground:	#EEEEEC
-
-!lightterm*background:	#FFFFFF
-!lightterm*foreground:	#000000
 
 URxvt*keysym.Home:	\033[1~
 URxvt*keysym.End:	\033[4~
