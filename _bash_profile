@@ -16,6 +16,9 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
+# This file is sourced by bash for login shells.  The following line
+# runs your .bashrc and is recommended by the bash info pages.
+[[ -f ~/.bashrc ]] && . ~/.bashrc
 
 # Show X11 display
 if [ -n "$DISPLAY" ]; then
@@ -132,6 +135,3 @@ fi
 
 [[ -f ~/.bash_profile.local ]] && . ~/.bash_profile.local
 
-# This file is sourced by bash for login shells.  The following line
-# runs your .bashrc and is recommended by the bash info pages.
-[[ -f ~/.bashrc ]] && . ~/.bashrc
