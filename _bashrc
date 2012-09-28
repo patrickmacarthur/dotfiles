@@ -147,6 +147,8 @@ HISTFILESIZE=5000
 HISTIGNORE="&:?:??:[bf]g:history:exit:pwd:clear:[ \t]*"
 shopt -s histappend
 
+[[ -f "${HOME}/.bashrc.local" ]] && . ${HOME}/.bashrc.local
+
 # This is needed on Gentoo to enable bash completion, since the script is not
 # sourced for non-interactive login shells.
 if [ -f /etc/profile.d/bash-completion.sh ]; then
