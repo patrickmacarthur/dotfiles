@@ -81,6 +81,8 @@ function recolor()
 		eval `dircolors --sh $HOME/.dircolors.256color`
 	elif [[ -e $HOME/.dircolors.$TERMBG ]]; then
 		eval `dircolors --sh $HOME/.dircolors.$TERMBG`
+	elif [[ -e $HOME/.dircolors ]]; then
+		eval `dircolors --sh $HOME/.dircolors`
 	fi
 }
 
