@@ -1,0 +1,33 @@
+# .screenrc
+# Patrick MacArthur
+# based on blcknight's suped up screenrc
+
+# No annoying audible bell, using "visual bell"
+vbell on
+
+# Setup keybindings
+bind ^l other
+
+# hardstatus via xterm titlebar
+termcapinfo xterm*|rxvt*|konsole*|Eterm*|gnome* 'hs:ts=\E]0;:fs=\007:ds=\E]0;\007'
+hardstatus on
+hardstatus string "screen %n (%t)%? [%h]%?"
+
+# status line at bottom
+caption always "%{Dk}%H)%D:%C%A|%{Dk}%-Lw%{Dk}%50>%{gk}%n%f*%t%{-}%+Lw%<%{-Wk}"
+
+# other settings
+term screen-256color
+crlf off
+startup_message off
+defscrollback 1000
+shell $SHELL
+defmonitor on
+activity "screen: activity in window %n"
+defutf8 on
+
+# default windows
+#screen -t shell 0
+#screen -t shell 1
+#select 0
+
