@@ -42,6 +42,7 @@ on your terminal background.  There are three values supported:
 * light
 * dark
 * solarized
+
 Setting this variable correctly will ensure that vim uses sane colors.
 To override the detection, create a file called "~/.termbg.$TERM" in
 your home directory.
