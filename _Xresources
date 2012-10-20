@@ -86,10 +86,10 @@ urxvt-dark*fadeColor:   S_base02
 *color15:               S_base3
 
 URxvt*iconFile:		/usr/share/icons/HighContrast/scalable/apps/utilities-terminal.svg
-URxvt.font:		xft:Inconsolata-8
-URxvt.boldFont:		xft:Inconsolata-8
-URxvt.italicFont:	xft:Inconsolata-8:italic:autohint=true
-URxvt.boldItalicFont:	xft:Inconsolata-8:italic:autohint=true
+URxvt.font:		xft:Inconsolata-10
+URxvt.boldFont:		xft:Inconsolata-10
+URxvt.italicFont:	xft:Inconsolata-10:italic:autohint=true
+URxvt.boldItalicFont:	xft:Inconsolata-10:italic:autohint=true
 URxvt.scrollBar:	off
 
 URxvt*keysym.Home:	\033[1~
