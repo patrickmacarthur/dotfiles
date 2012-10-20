@@ -7,10 +7,6 @@
 --
 import XMonad
 import XMonad.Config.Desktop
-import XMonad.Config.Gnome
-import DBus
-import DBus.Connection
-import DBus.Message
 import XMonad.Layout.Grid
 import XMonad.Layout.IM
 import XMonad.Layout.LayoutModifier
@@ -20,6 +16,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks (avoidStruts,AvoidStruts)
 import XMonad.Hooks.ManageHelpers (isFullscreen,doFullFloat)
 import XMonad.Hooks.SetWMName
+import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Loggers
 import Data.Monoid
 import Data.Ratio ((%))
@@ -32,12 +29,13 @@ import qualified Data.Map        as M
 myModMask    = mod4Mask
 
 -- Workspaces.  Name workspaces by putting them in a list like this:
-myWorkspaces = ["1:xterm", "2:web", "3:chat", "4:music", "5:mail", "6:pim", "7:gimp", "8", "9"]
+myWorkspaces = ["1:xterm", "2:web", "3:mail", "4:music", "5:chat", "6:gimp", "7", "8", "9"]
 
 ------------------------------------------------------------------------
 -- Additional key bindings. Add, modify or remove key bindings here.
 --
-myKeys = []
+myKeys = [ ((controlMask .|. mod1Mask, xK_l),
+            spawn "/usr/bin/xscreensaver-command --lock") ]
  
 ------------------------------------------------------------------------
 -- Window rules:
@@ -67,15 +65,16 @@ myManageHook = composeAll $
         , className =? "Thunderbird"    --> doShift "5:mail"
 	, stringProperty "WM_WINDOW_ROLE" =? "AlarmWindow"     --> doFloat
         , className =? "Amarok"         --> doShift "4:music"
+        , className =? "ario"         --> doShift "4:music"
         , resource  =? "desktop_window" --> doIgnore
         , resource  =? "kdesktop"       --> doIgnore 
         , isFullscreen                  --> doFullFloat
         ]
 
-myLayoutHook = onWorkspace "3:chat" imLayout $
+myLayoutHook = onWorkspace "5:chat" imLayout $
                onWorkspace "2:web" webLayout $
-               onWorkspace "7:gimp" gimpLayout $
-               layoutHook gnomeConfig
+               onWorkspace "6:gimp" gimpLayout $
+               layoutHook defaultConfig
   where imLayout = desktopLayoutModifiers $ withIM (1%5) imRoster Grid ||| Full
         imRoster = ClassName "Empathy" `And` Role "contact_list"
         webLayout = desktopLayoutModifiers $ Full ||| Tall 1 (3%100) (1%2)
@@ -130,9 +129,7 @@ myDzenPP = defaultPP { ppCurrent  = dzenColor "#268BD2" "#073642" . pad
 toggleStrutsKey :: XConfig t -> (KeyMask, KeySym)
 toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
 
----------------------------------
--- Main function
-main = xmonad =<< myDzen defaultConfig
+myConfig = defaultConfig
     { terminal           = "urxvt"
     , modMask            = myModMask
     , borderWidth        = 3
@@ -142,5 +139,9 @@ main = xmonad =<< myDzen defaultConfig
     , focusedBorderColor = "#268BD2"
     , layoutHook         = myLayoutHook
     , startupHook        = startupHook defaultConfig >> setWMName "LG3D"
-    }
+    } `additionalKeys` myKeys
+
+---------------------------------
+-- Main function
+main = xmonad =<< myDzen myConfig
 
