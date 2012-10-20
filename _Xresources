@@ -45,11 +45,11 @@
 *pointerColorForeground:S_base01
 
 urxvt-dark*background:	S_base03
-urxvt-dark*foreground:	S_base00
+urxvt-dark*foreground:	S_base0
 urxvt-dark*fadeColor:   S_base02
 
 *background:	S_base3
-*foreground:	S_base0
+*foreground:	S_base00
 *fadeColor:  S_base2
 
 
