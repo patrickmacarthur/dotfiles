@@ -8,19 +8,18 @@
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Config.Gnome
-import Control.OldException(catchDyn,try)
 import DBus
 import DBus.Connection
 import DBus.Message
 import XMonad.Layout.Grid
 import XMonad.Layout.IM
+import XMonad.Layout.LayoutModifier
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Reflect
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks (avoidStruts)
+import XMonad.Hooks.ManageDocks (avoidStruts,AvoidStruts)
 import XMonad.Hooks.ManageHelpers (isFullscreen,doFullFloat)
 import XMonad.Hooks.SetWMName
-import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Loggers
 import Data.Monoid
 import Data.Ratio ((%))
@@ -38,9 +37,7 @@ myWorkspaces = ["1:xterm", "2:web", "3:chat", "4:music", "5:mail", "6:pim", "7:g
 ------------------------------------------------------------------------
 -- Additional key bindings. Add, modify or remove key bindings here.
 --
-myKeys =
-    -- Quit xmonad
-    [ ((myModMask .|. shiftMask, xK_q), spawn "gnome-session-save --gui --logout-dialog") ]
+myKeys = []
  
 ------------------------------------------------------------------------
 -- Window rules:
@@ -67,10 +64,9 @@ myManageHook = composeAll $
         , className =? "Empathy"        --> doShift "3:chat"
         , className =? "Firefox"        --> doShift "2:web"
         , (className =? "Firefox" <&&> fmap (/= "Navigator") appName) --> doFloat
-        , (className =? "Evolution" <&&> fmap ((== "ShellWindow") . take 11) appName) --> doShift "5:mail"
-        , (className =? "Evolution" <&&> fmap ((/= "ShellWindow") . take 11) appName) --> doShift "6:pim"
+        , className =? "Thunderbird"    --> doShift "5:mail"
+	, stringProperty "WM_WINDOW_ROLE" =? "AlarmWindow"     --> doFloat
         , className =? "Amarok"         --> doShift "4:music"
-        , className =? "Kontact"        --> doShift "5:mail"
         , resource  =? "desktop_window" --> doIgnore
         , resource  =? "kdesktop"       --> doIgnore 
         , isFullscreen                  --> doFullFloat
@@ -87,73 +83,64 @@ myLayoutHook = onWorkspace "3:chat" imLayout $
                      reflectHoriz $
                      withIM (0.20) (Role "gimp-dock") Full
 
-myPrettyPrinter :: Connection -> PP
-myPrettyPrinter dbus = defaultPP 
-  { ppOutput  = outputThroughDBus dbus
---  , ppTitle   = pangoColor "#003366" . shorten 50 . pangoSanitize
---  , ppCurrent = pangoColor "#006666" . wrap "[" "]" . pangoSanitize
---  , ppVisible = pangoColor "#663366" . wrap "(" ")" . pangoSanitize
-  , ppTitle   = pangoColor "#729fcf" . shorten 50 . pangoSanitize
-  , ppCurrent = pangoColor "#8ae234" . wrap "[" "]" . pangoSanitize
-  , ppVisible = pangoColor "#ad7fa8" . wrap "(" ")" . pangoSanitize
-  , ppHidden  = wrap " " " "
-  , ppUrgent  = pangoColor "#ef2929"
-  }
+-- | Run xmonad with a dzen status bar set to some nice defaults.
+--
+-- > main = xmonad =<< dzen myConfig
+-- >
+-- > myConfig = defaultConfig { ... }
+--
+-- The intent is that the above config file should provide a nice
+-- status bar with minimal effort.
+--
+-- If you wish to customize the status bar format at all, you'll have to
+-- use the 'statusBar' function instead.
+--
+-- The binding uses the XMonad.Hooks.ManageDocks module to automatically
+-- handle screen placement for dzen, and enables 'mod-b' for toggling
+-- the menu bar.
+--
+myDzen conf = statusBar ("dzen2 " ++ flags) myDzenPP toggleStrutsKey conf
+ where
+    fg      = "'#657b83'" -- n.b quoting
+    bg      = "'#073642'"
+    flags   = "-e 'onstart=lower' -w 600 -ta l -fg " ++ fg ++ " -bg " ++ bg
+
+-- | Settings to emulate dwm's statusbar, dzen only.
+myDzenPP :: PP
+myDzenPP = defaultPP { ppCurrent  = dzenColor "#268BD2" "#073642" . pad
+                   , ppVisible  = dzenColor "#2AA198" "#073642" . pad
+                   , ppHidden   = dzenColor "#93A1A1" "#073642" . pad
+                   , ppHiddenNoWindows = const ""
+                   , ppUrgent   = dzenColor "#DC322F" "#073642" . pad
+                   , ppWsSep    = ""
+                   , ppSep      = ""
+                   , ppLayout   = dzenColor "#CB4B16" "#073642" .
+                                  (\ x -> pad $ case x of
+                                            "TilePrime Horizontal" -> "TTT"
+                                            "TilePrime Vertical"   -> "[]="
+                                            "Hinted Full"          -> "[ ]"
+                                            _                      -> x
+                                  )
+                   , ppTitle    = ("^fg(#268BD2) " ++) . dzenEscape
+                   }
+
+-- |
+-- Helper function which provides ToggleStruts keybinding
+--
+toggleStrutsKey :: XConfig t -> (KeyMask, KeySym)
+toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
 
 ---------------------------------
 -- Main function
-main = withConnection Session $ \ dbus -> do
-  getWellKnownName dbus
-  xmonad $ gnomeConfig
-    { terminal           = "gnome-terminal"
+main = xmonad =<< myDzen defaultConfig
+    { terminal           = "urxvt"
     , modMask            = myModMask
     , borderWidth        = 3
     , workspaces         = myWorkspaces
-    , manageHook         = myManageHook <+> manageHook gnomeConfig
-    , normalBorderColor  = "#888A85"
-    , focusedBorderColor = "#0000BF"
+    , manageHook         = myManageHook <+> manageHook defaultConfig
+    , normalBorderColor  = "#FDF6E3"
+    , focusedBorderColor = "#268BD2"
     , layoutHook         = myLayoutHook
-    , startupHook        = startupHook gnomeConfig >> setWMName "LG3D"
-    , logHook            = dynamicLogWithPP (myPrettyPrinter dbus)
-    } `additionalKeys` myKeys
-
---
--- Support Functions courtesy of
--- http://git.uhsure.com/?p=xmonad.git;a=blob;f=xmonad.hs
---
-
--- This retry is really awkward, but sometimes DBus won't let us get our
--- name unless we retry a couple times.
-getWellKnownName :: Connection -> IO ()
-getWellKnownName dbus = tryGetName `catchDyn` (\ (DBus.Error _ _) ->
-                                                getWellKnownName dbus)
- where
-  tryGetName = do
-    namereq <- newMethodCall serviceDBus pathDBus interfaceDBus "RequestName"
-    addArgs namereq [String "org.xmonad.Log", Word32 5]
-    sendWithReplyAndBlock dbus namereq 0
-    return ()
-
-outputThroughDBus :: Connection -> String -> IO ()
-outputThroughDBus dbus str = do
-  let str' = "<span font=\"Inconsolata 9 Bold\">" ++ str ++ "</span>"
-  msg <- newSignal "/org/xmonad/Log" "org.xmonad.Log" "Update"
-  addArgs msg [String str']
-  send dbus msg 0 `catchDyn` (\ (DBus.Error _ _ ) -> return 0)
-  return ()
-
-pangoColor :: String -> String -> String
-pangoColor fg = wrap left right
- where
-  left  = "<span foreground=\"" ++ fg ++ "\">"
-  right = "</span>"
-
-pangoSanitize :: String -> String
-pangoSanitize = foldr sanitize ""
- where
-  sanitize '>'  acc = "&gt;" ++ acc
-  sanitize '<'  acc = "&lt;" ++ acc
-  sanitize '\"' acc = "&quot;" ++ acc
-  sanitize '&'  acc = "&amp;" ++ acc
-  sanitize x    acc = x:acc
+    , startupHook        = startupHook defaultConfig >> setWMName "LG3D"
+    }
 
