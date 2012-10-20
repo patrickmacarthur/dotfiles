@@ -118,6 +118,21 @@ function! s:PosixCHeader()
     :-2
 endfunction
 
+" Creates the header for a .java file, assuming current file is empty
+function! s:JavaHeader()
+    let l:pkginfo = fnamemodify(expand("%"), ':h') . '/package-info.java'
+    -1   !echo "/* % */"
+    read !echo
+    if filereadable(l:pkginfo)
+        let l:cmd = "read !grep '^package' " . l:pkginfo . " 2>/dev/null"
+        exec l:cmd
+    endif
+    read !echo
+    read !echo "/** Documentation comment. */"
+    read !echo "public class" $(basename % .java) "{"
+    read !echo "}"
+endfunction
+
 if has("autocmd")
   augroup vimrc_autocmds
     " Clear existing autocmds
@@ -127,6 +142,7 @@ if has("autocmd")
     autocmd BufNewFile *.h call <SID>PosixHHeader()
     autocmd BufNewFile *.c call <SID>PosixCHeader()
     autocmd BufNewFile *.cxx,*.cpp,*.cc call <SID>CXXHeader()
+    autocmd BufNewFile *.java call <SID>JavaHeader()
 
     " Haskell
     autocmd BufNewFile *.hs call <SID>HSHeader()
