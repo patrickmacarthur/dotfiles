@@ -76,7 +76,7 @@ myLayoutHook = onWorkspace "5:chat" imLayout $
                onWorkspace "6:gimp" gimpLayout $
                layoutHook defaultConfig
   where imLayout = desktopLayoutModifiers $ withIM (1%5) imRoster Grid ||| Full
-        imRoster = ClassName "Empathy" `And` Role "contact_list"
+        imRoster = ClassName "Pidgin" `And` Role "buddy_list"
         webLayout = desktopLayoutModifiers $ Full ||| Tall 1 (3%100) (1%2)
         gimpLayout = desktopLayoutModifiers $ withIM (0.20) (Role "gimp-toolbox") $
                      reflectHoriz $
@@ -135,7 +135,7 @@ myConfig = defaultConfig
     , borderWidth        = 3
     , workspaces         = myWorkspaces
     , manageHook         = myManageHook <+> manageHook defaultConfig
-    , normalBorderColor  = "#FDF6E3"
+    , normalBorderColor  = "#eee8d5"
     , focusedBorderColor = "#268BD2"
     , layoutHook         = myLayoutHook
     , startupHook        = startupHook defaultConfig >> setWMName "LG3D"
