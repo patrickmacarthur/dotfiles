@@ -102,7 +102,7 @@ myDzen conf = statusBar ("dzen2 " ++ flags) myDzenPP toggleStrutsKey conf
  where
     fg      = "'#657b83'" -- n.b quoting
     bg      = "'#073642'"
-    flags   = "-e 'onstart=lower' -w 600 -ta l -fg " ++ fg ++ " -bg " ++ bg
+    flags   = "-e 'onstart=lower' -w 600 -ta l -fn '-*-terminus-*-*-*-*-12-*-*-*-*-*-*-u' -fg " ++ fg ++ " -bg " ++ bg
 
 -- | Settings to emulate dwm's statusbar, dzen only.
 myDzenPP :: PP

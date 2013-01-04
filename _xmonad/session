@@ -1,0 +1,11 @@
+#!/bin/sh
+# .xmonad/session
+# Script used by Fedora 17 xmonad Xsession script to specify custom commands to
+# run
+
+xscreensaver -no-splash &
+~/bin/wallpaper.sh &
+conky -c ~/.conkyrc | dzen2 -x 600 -w 900 -bg '#073642' -fg '#268BD2' -fn '-*-terminus-*-*-*-*-12-*-*-*-*-*-*-u' -ta r -sa r -p -e '' &
+trayer --edge top --align right --height 16 --widthtype pixel --width 100 --tint 0x073642 --alpha 0 --transparent true &
+nm-applet --sm-disable &
+urxvt -ls &
