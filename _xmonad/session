@@ -3,6 +3,16 @@
 # Script used by Fedora 17 xmonad Xsession script to specify custom commands to
 # run
 
+# Turn off AccessX
+[ -x /usr/bin/xkbset ] && /usr/bin/xkbset -a
+
+if [ -x /usr/libexec/polkit-gnome-authentication-agent-1 ]; then
+	/usr/libexec/polkit-gnome-authentication-agent-1 &
+fi
+if [ -x /usr/libexec/deja-dup/deja-dup-monitor ]; then
+	/usr/libexec/deja-dup/deja-dup-monitor &
+fi
+
 xscreensaver -no-splash &
 ~/bin/wallpaper.sh &
 conky -c ~/.conkyrc | dzen2 -x 600 -w 900 -bg '#073642' -fg '#268BD2' -fn '-*-terminus-*-*-*-*-12-*-*-*-*-*-*-u' -ta r -sa r -p -e '' &
