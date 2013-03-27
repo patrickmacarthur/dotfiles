@@ -1,6 +1,7 @@
-" after/ftplugin/java.vim
+" after/ftplugin/java.vim - My custom settings for Javaj files
+" Maintainer:	Patrick MacArthur <generalpenguin89@gmail.com>
 
-set textwidth=80
-set expandtab
-set shiftwidth=4
-set tabstop=8
+setlocal textwidth=80
+setlocal expandtab
+setlocal shiftwidth=4
+setlocal tabstop=8

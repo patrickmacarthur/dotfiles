@@ -1,3 +1,6 @@
-set spell
-set textwidth=72
-set indentexpr=
+" after/ftplugin/tex.vim - My custom settings for (La)TeX files
+" Maintainer:	Patrick MacArthur <generalpenguin89@gmail.com>
+
+setlocal spell
+setlocal textwidth=72
+setlocal indentexpr=
