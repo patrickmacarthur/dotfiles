@@ -63,6 +63,7 @@ myManageHook = composeAll $
         , className =? "Firefox"        --> doShift "2:web"
         , (className =? "Firefox" <&&> fmap (/= "Navigator") appName) --> doFloat
         , className =? "Thunderbird"    --> doShift "5:mail"
+        , (className =? "Thunderbird" <&&> className =? "Dialog")    --> doFloat
 	, stringProperty "WM_WINDOW_ROLE" =? "AlarmWindow"     --> doFloat
         , className =? "Amarok"         --> doShift "4:music"
         , className =? "ario"         --> doShift "4:music"
