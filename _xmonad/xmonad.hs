@@ -13,13 +13,17 @@ import XMonad.Layout.LayoutModifier
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Reflect
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks (avoidStruts,AvoidStruts)
+import XMonad.Hooks.ManageDocks (manageDocks,avoidStruts,AvoidStruts)
 import XMonad.Hooks.ManageHelpers (isFullscreen,doFullFloat)
 import XMonad.Hooks.SetWMName
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Loggers
+import XMonad.Util.Run
+import Graphics.X11.ExtraTypes.XF86
+import Control.Monad ((=<<))
 import Data.Monoid
 import Data.Ratio ((%))
+import System.IO (hPutStrLn)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -30,12 +34,6 @@ myModMask    = mod4Mask
 
 -- Workspaces.  Name workspaces by putting them in a list like this:
 myWorkspaces = ["1:xterm", "2:web", "3:mail", "4:music", "5:chat", "6:gimp", "7", "8", "9"]
-
-------------------------------------------------------------------------
--- Additional key bindings. Add, modify or remove key bindings here.
---
-myKeys = [ ((controlMask .|. mod1Mask, xK_l),
-            spawn "/usr/bin/xscreensaver-command --lock") ]
  
 ------------------------------------------------------------------------
 -- Window rules:
@@ -72,7 +70,7 @@ myManageHook = composeAll $
         , isFullscreen                  --> doFullFloat
         ]
 
-myLayoutHook = onWorkspace "5:chat" imLayout $
+myLayoutHook = avoidStruts $ onWorkspace "5:chat" imLayout $
                onWorkspace "2:web" webLayout $
                onWorkspace "6:gimp" gimpLayout $
                layoutHook defaultConfig
@@ -83,66 +81,27 @@ myLayoutHook = onWorkspace "5:chat" imLayout $
                      reflectHoriz $
                      withIM (0.20) (Role "gimp-dock") Full
 
--- | Run xmonad with a dzen status bar set to some nice defaults.
---
--- > main = xmonad =<< dzen myConfig
--- >
--- > myConfig = defaultConfig { ... }
---
--- The intent is that the above config file should provide a nice
--- status bar with minimal effort.
---
--- If you wish to customize the status bar format at all, you'll have to
--- use the 'statusBar' function instead.
---
--- The binding uses the XMonad.Hooks.ManageDocks module to automatically
--- handle screen placement for dzen, and enables 'mod-b' for toggling
--- the menu bar.
---
-myDzen conf = statusBar ("dzen2 " ++ flags) myDzenPP toggleStrutsKey conf
- where
-    fg      = "'#657b83'" -- n.b quoting
-    bg      = "'#073642'"
-    flags   = "-e 'onstart=lower' -w 600 -ta l -fn '-*-terminus-*-*-*-*-12-*-*-*-*-*-*-u' -fg " ++ fg ++ " -bg " ++ bg
-
--- | Settings to emulate dwm's statusbar, dzen only.
-myDzenPP :: PP
-myDzenPP = defaultPP { ppCurrent  = dzenColor "#268BD2" "#073642" . pad
-                   , ppVisible  = dzenColor "#2AA198" "#073642" . pad
-                   , ppHidden   = dzenColor "#93A1A1" "#073642" . pad
-                   , ppHiddenNoWindows = const ""
-                   , ppUrgent   = dzenColor "#DC322F" "#073642" . pad
-                   , ppWsSep    = ""
-                   , ppSep      = ""
-                   , ppLayout   = dzenColor "#CB4B16" "#073642" .
-                                  (\ x -> pad $ case x of
-                                            "TilePrime Horizontal" -> "TTT"
-                                            "TilePrime Vertical"   -> "[]="
-                                            "Hinted Full"          -> "[ ]"
-                                            _                      -> x
-                                  )
-                   , ppTitle    = ("^fg(#268BD2) " ++) . dzenEscape
-                   }
-
--- |
--- Helper function which provides ToggleStruts keybinding
---
-toggleStrutsKey :: XConfig t -> (KeyMask, KeySym)
-toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b )
 
 myConfig = defaultConfig
     { terminal           = "urxvt"
     , modMask            = myModMask
     , borderWidth        = 3
     , workspaces         = myWorkspaces
-    , manageHook         = myManageHook <+> manageHook defaultConfig
+    , manageHook         = manageDocks <+> myManageHook <+> manageHook defaultConfig
     , normalBorderColor  = "#eee8d5"
     , focusedBorderColor = "#268BD2"
     , layoutHook         = myLayoutHook
     , startupHook        = startupHook defaultConfig >> setWMName "LG3D"
-    } `additionalKeys` myKeys
+    } `additionalKeys`
+    [ ((controlMask .|. mod1Mask, xK_l),
+            spawn "/usr/bin/xscreensaver-command --lock")
+    , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 20 -steps 1 -time 1")
+    , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 20 -steps 1 -time 1")
+    , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 3%+")
+    , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 3%-")
+    , ((0, xF86XK_AudioMute), spawn "amixer set Master toggle")
+    ]
 
 ---------------------------------
 -- Main function
-main = xmonad =<< myDzen myConfig
-
+main = xmonad =<< xmobar myConfig
