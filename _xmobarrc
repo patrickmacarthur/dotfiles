@@ -1,0 +1,23 @@
+Config { font      = "xft:Bitstream Vera Sans Mono:bold:size=8"
+    , bgColor      = "#073642"
+    , fgColor      = "#268BD2"
+    , position     = Static { xpos = 0 , ypos = 0, width = 1500, height = 16 }
+    , commands     =
+       [ Run StdinReader
+       , Run MultiCpu ["-t", "CPU: <total0>%/<total1>%",
+                       "-L", "3", "-H","50",
+                       "-n", "#cb4b16", "-h", "#dc322f"] 40
+       , Run BatteryP ["BAT0"] 
+                      ["-t", "Batt: <acstatus> (<left>%)",
+                       "-H", "90", "-L", "30",
+                       "-l", "#dc322f", "-n", "#cb4b16"] 30
+       , Run ThermalZone 0
+                         ["-t", "Temp: <temp>°C",
+                          "-H", "60", "-L", "40",
+                          "-n", "#cb4b16", "-h", "#dc322f"] 40
+       , Run Date "%a %b %_d %l:%M %p" "date" 60
+       ]
+    , sepChar      = "%"
+    , alignSep     = "}{"
+    , template     = " %StdinReader% }{ %multicpu% | %thermal0% | %battery% | %date% "
+    }
