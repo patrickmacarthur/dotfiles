@@ -22,6 +22,16 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
+alias lt-gdb="libtool --mode=execute gdb"
+alias lt-valgrind="libtool --mode=execute valgrind"
+
+if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
+	GIT_PS1_SHOWDIRTYSTATE=1
+	GIT_PS1_SHOWSTASHSTATE=1
+	GIT_PS1_SHOWUNTRACKEDFILES=1
+	GIT_PS1_SHOWUPSTREAM=auto
+	source /usr/share/git/completion/git-prompt.sh
+fi
 
 # Prompt
 function recolor()
@@ -72,10 +82,11 @@ function recolor()
 		white='\[\e[37m\]'
 	fi
 
-	happy="$green:-)$normal"
+	happy="$cyan:-)$normal"
 	sad="$red:-($normal"
 	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
-	PS1="$cyan[\!][\u@\h:$yellow\W$cyan]$normal $stat $cyan\$$normal "
+	XTERM_TITLE='\[\e]0;\u@\H:$(dirs)$(__git_ps1 " (%s)")\a\]'
+	PS1="${cyan}\! \H $stat $cyan\$$normal ${XTERM_TITLE}"
 
 	if [[ $(tput colors) -ge 256 && -e $HOME/.dircolors.256color ]]; then
 		eval `dircolors --sh $HOME/.dircolors.256color`
