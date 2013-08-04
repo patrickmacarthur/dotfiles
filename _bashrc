@@ -132,8 +132,11 @@ export EDITOR=$VISUAL
 export PAGER=less
 export LESS=-FQR
 
+HISTCONTROL=ignoreboth
 HISTSIZE=5000
 HISTFILESIZE=5000
+HISTIGNORE="&:?:??:[bf]g:history:exit:pwd:clear:[ \t]*"
+shopt -s histappend
 
 # This is needed on Gentoo to enable bash completion, since the script is not
 # sourced for non-interactive login shells.
