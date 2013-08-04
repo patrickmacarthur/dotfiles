@@ -49,6 +49,7 @@ set showcmd
 set showmode
 set showmatch
 set smarttab
+set wildignore+=*.o,configure,Makefile.in,tags
 set wildmenu
 set wrapmargin=8
 
