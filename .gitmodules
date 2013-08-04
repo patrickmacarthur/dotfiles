@@ -4,15 +4,6 @@
 [submodule "_vim/bundle/vim-fugitive"]
 	path = _vim/bundle/vim-fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "_vim/bundle/Liquid-Carbon"]
-	path = _vim/bundle/Liquid-Carbon
-	url = git://github.com/vim-scripts/Liquid-Carbon.git
-[submodule "_vim/bundle/inkpot"]
-	path = _vim/bundle/inkpot
-	url = git://github.com/ciaranm/inkpot.git
-[submodule "_vim/bundle/quicktask"]
-	path = _vim/bundle/quicktask
-	url = https://github.com/aaronbieber/quicktask.git
 [submodule "_vim/bundle/altercation"]
 	path = _vim/bundle/altercation
 	url = git://github.com/altercation/vim-colors-solarized.git
