@@ -180,6 +180,8 @@ export EDITOR=$VISUAL
 export PAGER=less
 export LESS=-XFQR
 
+setbrowser
+
 # cd without typing 'cd'
 setopt autocd
 

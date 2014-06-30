@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+# Sets and exports the BROWSER environment variable
+# Patrick MacArthur <contact@patrickmacarthur.net>
+
+graphical_browsers=(firefox chromium chrome)
+text_browsers=(elinks links lynx)
+
+for browser in ${graphical_browsers}; do
+	if [[ -n ${DISPLAY} ]] && whence ${browser} &>/dev/null; then
+		BROWSER=${browser}
+	fi
+done
+if [[ -z ${BROWSER} ]]; then
+	for browser in ${text_browsers}; do
+		if whence ${browser} &>/dev/null; then
+			BROWSER=${browser}
+		fi
+	done
+fi
+if [[ -n ${BROWSER} ]]; then
+	export BROWSER
+fi
