@@ -3,4 +3,3 @@
 
 setlocal spell
 setlocal textwidth=72
-setlocal indentexpr=
