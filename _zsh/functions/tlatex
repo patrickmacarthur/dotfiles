@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+# Converts a TLA+ source file to LaTeX
+# Patrick MacArthur <pio3@wildcats.unh.edu>
+
+java -cp "$TLAHOME" -showversion tla2tex.TLA -shade \
+     -textwidth 550 -textheight 725 -hoffset -100 -voffset -100 "$@"

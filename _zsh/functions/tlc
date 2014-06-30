@@ -1,0 +1,41 @@
+#!/usr/bin/env zsh
+# Runs TLC model checker
+# Patrick MacArthur <pio3@wildcats.unh.edu>
+
+TLAHOME=/opt/tla                 # where the Java bytecode is
+MEMORY=1500m                     # how much memory given to the JVM
+
+if [ -z "$TLCWORKERS" ]
+then export TLCWORKERS=$(nproc)
+     echo "setting TLCWORKERS to $TLCWORKERS"
+fi
+tmp1=$(mktemp)
+tmp2=$(mktemp --suffix=.cfg)
+tmp3=$(mktemp --tmpdir=/var/tmp -d)
+date
+echo "Workers: $TLCWORKERS"
+while [ -n "$1" ]
+do if expr "$1" : '.*=.*' > /dev/null
+    then echo "CONSTANT $1" >> $tmp1
+         shift
+    else break
+    fi
+done
+CFG="$(eval echo \$$#)"
+echo "CFG ${CFG}"
+if expr "$CFG" : '.*\.tla' > /dev/null
+    then CFG=`expr "$CFG" : '\(.*\)\.tla'`.cfg
+else CFG="$CFG".cfg
+fi
+echo >> $tmp1
+if [ -r "$CFG" ]
+then cat "$CFG" > $tmp2
+        echo >> $tmp2
+fi
+cat $tmp1 >> $tmp2
+cat $tmp2
+time java -da -cp "$TLAHOME" -showversion -Xmx$MEMORY\
+        tlc2.TLC -config $tmp2 -workers $TLCWORKERS\
+                -metadir $tmp3 "$@"
+date
+rm -rf $tmp1 $tmp2 $tmp3
