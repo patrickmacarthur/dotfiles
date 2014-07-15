@@ -42,6 +42,13 @@ if ! type __git_ps1 &>/dev/null; then
 	alias __git_ps1=:
 fi
 
+# Run a command repeatedly until it fails
+function repeatedly ()
+{
+	while "$@"; do :; done
+	return $?
+}
+
 # Prompt
 function recolor()
 {
