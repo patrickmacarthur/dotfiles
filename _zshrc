@@ -19,9 +19,21 @@ HISTSIZE=5000
 SAVEHIST=5000
 # End of lines configured by zsh-newuser-install
 
+export KEYTIMEOUT=1
 bindkey -v
 bindkey "^[[1~" beginning-of-line
+bindkey "^[[2~" vi-quoted-insert
+bindkey "^[[3~" delete-char
 bindkey "^[[4~" end-of-line
+bindkey "^[[5~" history-search-backward
+bindkey "^[[6~" history-search-forward
+bindkey -a "^[[1~" beginning-of-line
+bindkey -a "^[[2~" vi-quoted-insert
+bindkey -a "^[[3~" delete-char
+bindkey -a "^[[4~" end-of-line
+bindkey -a "^[[5~" history-search-backward
+bindkey -a "^[[6~" history-search-forward
+bindkey '^R' vi-history-search-backward
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/patrick/.zshrc'

@@ -16,6 +16,7 @@ set editing-mode vi
 # For rxvt home/end keys
 $if term=rxvt
 "\e[1~": beginning-of-line
+"\e[3~": delete-char
 "\e[4~": end-of-line
 $endif
 
