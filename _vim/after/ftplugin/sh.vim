@@ -1,4 +1,4 @@
 " after/ftplugin/sh.vim - My custom settings for bash and POSIX shell files
-" Maintainer:	Patrick MacArthur <generalpenguin89@gmail.com>
+" Maintainer:	Patrick MacArthur <contact@patrickmacarthur.net>
 
 setlocal textwidth=80
