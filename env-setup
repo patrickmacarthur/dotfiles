@@ -14,7 +14,7 @@ die() {
 # Some variable(s)
 
 userdistro="NULL"
-repo="git://github.com/generalpenguin89/dotfiles.git"
+repo="git://github.com/patrickmacarthur/dotfiles.git"
 
 dotfilesdir="src/dotfiles"
 files=(Xresources bash_logout bash_profile bashrc cvsignore inputrc tmux.conf vim vimrc zlogin zprofile zsh zshrc)
