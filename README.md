@@ -1,5 +1,5 @@
-generalpenguin89's dotfiles repository
-======================================
+Patrick's dotfiles repository
+=============================
 
 This is a freely available repository of some of my dotfiles.  I use
 this to maintain a consistent environment between all of the Linux
@@ -47,6 +47,5 @@ Setting this variable correctly will ensure that vim uses sane colors.
 To override the detection, create a file called "~/.termbg.$TERM" in
 your home directory.
 
-Feel free to contact me at generalpenguin89@gmail.com with any comments
+Feel free to contact me at contact@patrickmacarthur.net with any comments
 or questions on any of these files.
-
