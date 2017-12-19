@@ -66,15 +66,13 @@
 !*color14: #93a1a1
 !*color15: #fdf6e3
 
+URxvt*geometry:		100x40
 URxvt*iconFile:		/usr/share/icons/HighContrast/scalable/apps/utilities-terminal.svg
 URxvt.font:		xft:Inconsolata-10
 URxvt.boldFont:		xft:Inconsolata-10
 URxvt.italicFont:	xft:Inconsolata-10:italic:autohint=true
 URxvt.boldItalicFont:	xft:Inconsolata-10:italic:autohint=true
 URxvt.scrollBar:	off
-
-URxvt*keysym.Home:	\033[1~
-URxvt*keysym.End:	\033[4~
 
 URxvt*perl-ext-common:	default,matcher
 URxvt*url-launcher:	/usr/bin/firefox

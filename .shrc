@@ -1,0 +1,66 @@
+# .shrc
+# Common aliases and functions for all Bourne-like shells
+
+# This script expects "whence_w" to be defined as a shell builtin, alias,
+# or function which given the argument foo outputs the string "alias" if
+# an alias "foo" is defined.
+
+# Tolerate missing a specific terminal type if we have a more generic version
+# (e.g., substitute screen for screen-256color)
+screen_colors=$(tput colors 2>/dev/null)
+if [[ -z "${screen_colors}" && "$TERM" == tmux* ]]; then
+	TERM=screen${TERM##tmux}
+	screen_colors=$(tput colors 2>/dev/null)
+fi
+while [[ "$TERM" == *-* && -z "${screen_colors}" ]]; do
+	TERM=${TERM%-*}
+	screen_colors=$(tput colors 2>/dev/null)
+done
+: ${screen_colors:=1}
+
+# Give a default useful prompt for a shell that I have no configuration for
+# This prompt does not use any shell-specific features
+if [ x = "x$PS1" ]; then
+	[ $(id -u) -eq 0 ] && PS1='# ' || PS1='$ '
+fi
+case $PS1 in
+  ?' ') PS1="$LOGNAME@$(uname -n) $(basename $0|sed -e 's/^-//')$PS1" ;;
+esac
+
+alias lt-gdb="libtool --mode=execute gdb"
+alias lt-valgrind="libtool --mode=execute valgrind"
+alias head='head -n $(($LINES-5))'
+alias tail='tail -n $(($LINES-5))'
+alias vis="cat -v"
+
+# Colorization and other support for colorization in GNU tools.  If we don't
+# have GNU tools, use POSIX options that give us something close to what we
+# want.
+if [ "$screen_colors" -ge 8 ]; then
+	if [ "x$OSTYPE" = xlinux -o "x$OSTYPE" = xlinux-gnu ]; then
+		alias ls="ls --color=auto"
+		alias grep='grep --color=auto -n --exclude=".*.sw?" --exclude="*~" --exclude=tags'
+	elif [ "x$(uname -s)" = xFreeBSD ]; then
+		alias ls='ls -G'
+	fi
+	if [ -e "$HOME/.dircolors.$TERM" ]; then
+		eval `dircolors --sh $HOME/.dircolors.$TERM`
+	elif [ -e "$HOME/.dircolors" ]; then
+		eval `dircolors --sh $HOME/.dircolors`
+	fi
+
+	if diff --color=auto /dev/null /dev/null 2>/dev/null; then
+		alias diff="diff -up --color=auto"
+	elif whence_w colordiff >/dev/null 2>&1; then
+		alias diff="colordiff -up"
+	fi
+fi
+[ "x$(whence_w ls)" = xalias ] || alias ls='ls -F'
+[ "x$(whence_w diff)" = xalias ] || alias diff='diff -up'
+
+# Run a command repeatedly until it fails
+whileok ()
+{
+	while "$@"; do :; done
+	return $?
+}
