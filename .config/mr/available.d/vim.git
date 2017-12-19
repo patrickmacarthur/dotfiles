@@ -1,0 +1,14 @@
+[.vim/bundle/vim-pathogen]
+checkout = git clone 'https://github.com/tpope/vim-pathogen.git' 'vim-pathogen'
+
+[.vim/bundle/vim-sensible]
+checkout = git clone 'https://github.com/tpope/vim-sensible.git' 'vim-sensible'
+
+[.vim/bundle/ansible-vim]
+checkout = git clone 'https://github.com/pearofducks/ansible-vim.git' 'ansible-vim'
+
+[.vim/bundle/vim-colors-solarized]
+checkout = git clone 'git://github.com/patrickmacarthur/vim-colors-solarized.git' 'vim-colors-solarized'
+
+[.vim/bundle/vim-fugitive]
+checkout = git clone 'https://github.com/tpope/vim-fugitive.git' 'vim-fugitive'

@@ -1,0 +1,6 @@
+[DEFAULT]
+git_status = git status -s -b "$@" || true; (git branch -vv | grep -v '^*') || true; git --no-pager log --branches --not --remotes --simplify-by-decoration --decorate --oneline || true; git stash list
+git_gc = git gc "$@"
+jobs = 5
+
+include = cat ~/.config/mr/conf.d/*
