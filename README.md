@@ -7,16 +7,12 @@ machines that I use.  I have decided in addition to make this available
 as a resource for others to use to get what I feel is a reasonably
 decent default setup.
 
-I have provided an env-setup script that will automatically checkout
-this repository into ~/src/dotfiles.  WARNING: the script has been
-created and tested within my environment and it may not work quite right
-in your environment.  It will also create local versions of these files
-named .file.local where you can put local modifications that will
-not be overwritten on updates.
+This repository is meant to be used with [vcsh][vcsh] and [myrepos][mr].
+I have provided a .mrconfig which allows you to drop myrepos configuration
+files into ~/.config/mr/conf.d.
 
-This is currently in the process of being switched over to the solarized
-colorscheme.  You can find out more information about the solarized
-colorscheme here: http://ethanschoonover.com/solarized
+My shell and vim configurations use the
+[solarized color scheme][solarized].
 
 The most important thing to note about the solarized colorscheme is that
 it makes nonstandard use of the base 16 colors of your terminal
@@ -33,19 +29,8 @@ very simple configuration via Xresources, is light on resources, and
 actually sets the TERM, COLORTERM, and COLORFGBG variables to sane
 values on startup.  I use the COLORFGBG variable in particular to derive
 the TERMBG variable.  If you use a different terminal emulator, you will
-want to make sure it sets TERM correctly.  GNOME Terminal is notoriously
-terrible about this.
+want to make sure it sets TERM correctly.
 
-Speaking of colors and TERMBG, my bashrc and zshrc have a recolor
-function that is used to set the foreground colors appropriately based
-on your terminal background.  There are three values supported:
-* light
-* dark
-* solarized
-
-Setting this variable correctly will ensure that vim uses sane colors.
-To override the detection, create a file called "~/.termbg.$TERM" in
-your home directory.
-
-Feel free to contact me at contact@patrickmacarthur.net with any comments
-or questions on any of these files.
+[mr]: https://myrepos.branchable.com/
+[solarized]: http://ethanschoonover.com/solarized
+[vcsh]: https://github.com/RichiH/vcsh
