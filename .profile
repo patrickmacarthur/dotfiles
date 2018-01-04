@@ -1,5 +1,16 @@
 # ~/.profile
 
+if [ x${PS1} != x ] && [ x${HOME} = x ] ; then
+	printf '.profile: \$HOME is not defined! Not continuing.' >&2
+	return
+fi
+
+# Set XDG configuration variables to defaults, so we can always just
+# use their values
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+
 if [ -d "$HOME/bin" ]; then
 	PATH=$PATH:$HOME/bin
 fi
@@ -20,6 +31,11 @@ done
 if [ x != x$BROWSER ]; then
 	export BROWSER
 fi
+
+export CCACHE_DIR="${XDG_CACHE_HOME}/ccache"
+export PYTHON_EGG_CACHE="${XDG_CACHE_HOME}/python-eggs"
+export TASKDATA="${XDG_DATA_HOME}/taskwarrior"
+export TASKRC="${XDG_CONFIG_HOME}/taskwarrior/taskrc"
 
 export EDITOR=vim
 export LESS='FXRQ'
