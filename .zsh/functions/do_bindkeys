@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+# Initializes key bindings for ZSH
+
+zmodload zsh/terminfo
+
+KEYTIMEOUT=1
+bindkey -v
+bindkey '^R' vi-history-search-backward
+
+typeset -A keys
+keys[beginning-of-line]=${terminfo[khome]}
+keys[end-of-line]=${terminfo[kend]}
+keys[overwrite-mode]=${terminfo[kich1]}
+keys[delete-char]=${terminfo[kdch1]}
+keys[up-line-or-history]=${terminfo[kcuu1]}
+keys[down-line-or-history]=${terminfo[kcud1]}
+keys[backward-char]=${terminfo[kcub1]}
+keys[forward-char]=${terminfo[kcuf1]}
+keys[beginning-of-buffer-or-history]=${terminfo[kpp]}
+keys[end-of-buffer-or-history]=${terminfo[knp]}
+
+for k in "${(k)keys[@]}"; do
+	if [[ -n "${keys[$k]}" ]]; then
+		bindkey    "${keys[$k]}" "$k"
+		bindkey -a "${keys[$k]}" "$k"
+	fi
+done
+
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+    zle-line-init () {
+	echoti smkx
+    }
+    zle-line-finish () {
+	echoti rmkx
+    }
+    zle -N zle-line-init
+    zle -N zle-line-finish
+fi

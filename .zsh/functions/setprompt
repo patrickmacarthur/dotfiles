@@ -1,0 +1,28 @@
+#!/usr/bin/env zsh
+# Sets the prompt
+
+setopt prompt_subst
+typeset happy sad c_stat c_pwd c_branch PR_COLOR PR_RESET
+
+# See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
+autoload colors
+if [[ "$terminfo[colors]" -ge 8 ]]; then
+	colors
+fi
+for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+	eval typeset PR_$color
+	eval PR_$color='%{$fg[${(L)color}]%}'
+done
+PR_RESET="%{$terminfo[sgr0]%}"
+
+# Color of the prompt: red for superuser, cyan for all other users
+PR_COLOR="%(!.$PR_RED.$PR_CYAN)"
+
+# Prompt component: status
+happy="$PR_GREEN:-)$PR_COLOR"
+sad="$PR_RED:-($PR_COLOR"
+c_stat=" %(?.$happy.$sad) "
+
+c_pwd="$PR_YELLOW%1~$PR_COLOR"
+c_branch="$PR_YELLOW\$VCSBRANCH$PR_COLOR"
+PS1="${PR_COLOR}[%!][%n@%m:${c_pwd}]${c_branch}${c_stat}%#$PR_RESET "
