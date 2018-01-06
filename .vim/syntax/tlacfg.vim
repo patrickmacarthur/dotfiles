@@ -1,6 +1,6 @@
 " Vim syntax file for TLC configuration files
 " Language: TLC configuration language
-" Maintainer: Patrick MacArthur <pmacarth@iol.unh.edu>
+" Maintainer: Patrick MacArthur <patrick@patrickmacarthur.net>
 " Last Change: Wed Oct  2 14:25:28 EDT 2013
 
 " Based on tla.vim by Diego Ongaro

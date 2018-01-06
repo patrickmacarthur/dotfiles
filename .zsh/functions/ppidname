@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 # Prints the name of the parent process
-# Patrick MacArthur <contact@patrickmacarthur.net>
+# Patrick MacArthur <patrick@patrickmacarthur.net>
 
 ps -o comm= $PPID

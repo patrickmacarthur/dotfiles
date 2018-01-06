@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 # Converts a TLA+ source file to PDF
-# Patrick MacArthur <pio3@wildcats.unh.edu>
+# Patrick MacArthur <patrick@patrickmacarthur.net>
 
 tlatex -latexCommand pdflatex "$@"

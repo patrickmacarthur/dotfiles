@@ -1,6 +1,6 @@
 " Plugin to recognize TLA+ modules and TLC configuration files
 " Last Change:	2013 Oct 02
-" Maintainer:	Patrick MacArthur <pmacarth@iol.unh.edu>
+" Maintainer:	Patrick MacArthur <patrick@patrickmacarthur.net>
 " License:	BSD
 
 autocmd BufNewFile,BufRead *.tla set filetype=tla

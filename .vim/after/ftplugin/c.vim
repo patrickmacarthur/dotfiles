@@ -1,5 +1,5 @@
 " after/ftplugin/c.vim - My custom settings for C files
-" Maintainer:	Patrick MacArthur <contact@patrickmacarthur.net>
+" Maintainer:	Patrick MacArthur <patrick@patrickmacarthur.net>
 
 setlocal autoindent
 setlocal noexpandtab

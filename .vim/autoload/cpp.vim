@@ -1,5 +1,5 @@
 " autoload/cpp.vim - Functions for autogenerating C++ code
-" Maintainer:	Patrick MacArthur <contact@patrickmacarthur.net>
+" Maintainer:	Patrick MacArthur <patrick@patrickmacarthur.net>
 
 if exists("g:loaded_cpp")
 	finish

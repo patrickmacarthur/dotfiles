@@ -1,6 +1,6 @@
 " Begin .vimrc
 "
-" by Patrick MacArthur <contact@patrickmacarthur.net>
+" by Patrick MacArthur <patrick@patrickmacarthur.net>
 
 " Start out with vim (not vi) defaults
 set nocompatible

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # Sets and exports the BROWSER environment variable
-# Patrick MacArthur <contact@patrickmacarthur.net>
+# Patrick MacArthur <patrick@patrickmacarthur.net>
 
 graphical_browsers=(firefox chromium chrome)
 text_browsers=(elinks links lynx)

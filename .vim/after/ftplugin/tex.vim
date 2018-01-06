@@ -1,5 +1,5 @@
 " after/ftplugin/tex.vim - My custom settings for (La)TeX files
-" Maintainer:	Patrick MacArthur <contact@patrickmacarthur.net>
+" Maintainer:	Patrick MacArthur <patrick@patrickmacarthur.net>
 
 setlocal spell
 setlocal textwidth=72

@@ -1,6 +1,6 @@
 " Plugin to set reasonable settings for TLA+ modules
 " Last Change:	2013 Oct 02
-" Maintainer:	Patrick MacArthur <pmacarth@iol.unh.edu>
+" Maintainer:	Patrick MacArthur <patrick@patrickmacarthur.net>
 " License:	BSD
 
 if exists("b:did_ftplugin")

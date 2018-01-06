@@ -14,7 +14,7 @@ endfunction
 " Creates the header for a header file, assuming current file is .h and empty
 function! s:PosixHHeader()
   -1   !echo "/* %"
-  read !echo " * Patrick MacArthur <contact@patrickmacarthur.net>"
+  read !echo " * Patrick MacArthur <patrick@patrickmacarthur.net>"
   read !echo " * Description of this file goes here (TODO)"
   read !echo " */"
   read !echo
@@ -30,7 +30,7 @@ endfunction
 " Creates the header for a C++ file, assuming current file is empty
 function! s:CXXHeader()
     -1   !echo "/* %"
-    read !echo " * Patrick MacArthur <contact@patrickmacarthur.net>"
+    read !echo " * Patrick MacArthur <patrick@patrickmacarthur.net>"
     read !echo " * Description of this file goes here (TODO)"
     read !echo " */"
     read !echo
@@ -42,7 +42,7 @@ endfunction
 " Creates the header for a .c file, assuming current file is empty
 function! s:PosixCHeader()
     -1   !echo "/* %"
-    read !echo " * Patrick MacArthur <contact@patrickmacarthur.net>"
+    read !echo " * Patrick MacArthur <patrick@patrickmacarthur.net>"
     read !echo " * Description of this file goes here (TODO)"
     read !echo " */"
     read !echo

@@ -1,5 +1,5 @@
 " after/ftplugin/sml.vim - My custom settings for SML files
-" Maintainer:	Patrick MacArthur <contact@patrickmacarthur.net>
+" Maintainer:	Patrick MacArthur <patrick@patrickmacarthur.net>
 
 setlocal expandtab
 setlocal shiftwidth=4
