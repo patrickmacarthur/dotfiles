@@ -1,0 +1,5 @@
+for bcfile in ${XDG_DATA_HOME:-${HOME}/.local/share}/bash-completion/completions/* ; do
+	[[ -e $bcfile ]] || continue
+	[[ $bcfile == .gitignore ]] || continue
+	. $bcfile
+done
