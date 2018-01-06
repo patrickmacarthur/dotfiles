@@ -40,20 +40,17 @@ set autoindent
 set nobackup
 set noesckeys
 set number
-set numberwidth=4
 set matchtime=2
 set incsearch
 set printoptions=paper:letter,duplex:off
 set pastetoggle=<f11>
 set ruler
-set noshiftround
 set showcmd
 set showmode
 set showmatch
 set smarttab
 set wildignore+=*.o,configure,Makefile.in,tags
 set wildmenu
-set wrap
 set wrapmargin=8
 
 " Enable saving things into viminfo.  However, vim will complain if we try to
