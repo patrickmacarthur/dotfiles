@@ -1,5 +1,11 @@
-# .bash_logout
+# ~/.bash_logout: executed by bash(1) when login shell exits.
 
-# The individual login shell cleanup file, executed when a login shell exits
+# when leaving the console clear the screen to increase privacy
 
-[[ -f ~/.bash_logout.local ]] && . ~/.bash_logout.local
+if [ "$SHLVL" = 1 ]; then
+    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+fi
+
+if [ -f "${HOME}/.bash_logout.local" ]; then
+    . ${HOME}/.bash_logout.local
+fi
