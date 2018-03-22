@@ -81,6 +81,8 @@ let g:tex_indent_items = 0
 let g:tex_indent_and = 0
 let g:tex_noindent_env = 'document\|verbatim\|lstlisting\|proof'
 
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
 " Source local vimrc to grab local-only modifications to this file
 if filereadable(expand("$HOME/.vimrc.local"))
   source $HOME/.vimrc.local
