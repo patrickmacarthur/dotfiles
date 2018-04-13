@@ -26,8 +26,7 @@ endif
 
 if has("gui_running")
   set cursorline
-  set guifont=Monospace\ 10
-  set guifontwide=Monospace\ 10
+  set guifont=Ubuntu\ Mono\ 12
   set guioptions-=T
 
   runtime ftplugin/man.vim
