@@ -57,7 +57,7 @@ prompt_cmd ()
 set_prompt ()
 {
 	local norm c_r c_g c_y c_u c_p c_c c_w
-	local happy sad stat
+	local happy prefix sad stat
 
 	norm="\[$(tput sgr0)\]"
 	c_r="\[$(tput setaf 1)\]"
@@ -68,10 +68,14 @@ set_prompt ()
 	c_c="\[$(tput setaf 6)\]"
 	c_w="\[$(tput setaf 7)\]"
 
+	if [[ -n ${VCSH_REPO_NAME} ]]; then
+		prefix="${c_w}(vcsh:${VCSH_REPO_NAME})${norm} "
+	fi
+
 	happy=":-)"
 	sad="$c_r:-($c_g"
 	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
-	PS1="${c_g}\\! [\\u@\\h:${c_w}\\W${c_g}]${c_w}"
+	PS1="${prefix}${c_g}\\! [\\u@\\h:${c_w}\\W${c_g}]${c_w}"
 	PS1="${PS1}\${gitstat}${c_g} $stat \\\$$norm "
 
 	type prompt_cmd >/dev/null 2>&1 && PROMPT_COMMAND=prompt_cmd
