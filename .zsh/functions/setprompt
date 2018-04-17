@@ -2,7 +2,7 @@
 # Sets the prompt
 
 setopt prompt_subst
-typeset happy sad c_stat c_pwd c_branch PR_COLOR PR_RESET
+typeset happy sad c_stat c_pwd c_branch c_prefix PR_COLOR PR_RESET
 
 # See if we can use colors. (source: http://aperiodic.net/phil/prompt/)
 autoload colors
@@ -23,6 +23,9 @@ happy="$PR_GREEN:-)$PR_COLOR"
 sad="$PR_RED:-($PR_COLOR"
 c_stat=" %(?.$happy.$sad) "
 
+if [[ -n ${VCSH_REPO_NAME} ]]; then
+	c_prefix="${PR_YELLOW}(vcsh:${VCSH_REPO_NAME})${PR_COLOR} "
+fi
 c_pwd="$PR_YELLOW%1~$PR_COLOR"
-c_branch="$PR_YELLOW\$VCSBRANCH$PR_COLOR"
-PS1="${PR_COLOR}[%!][%n@%m:${c_pwd}]${c_branch}${c_stat}%#$PR_RESET "
+c_branch="$PR_YELLOW\${vcs_info_msg_0_}$PR_COLOR"
+PROMPT="${c_prefix}${PR_COLOR}[%!][%n@%m:${c_pwd}]${c_branch}${c_stat}%#$PR_RESET "
