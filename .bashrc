@@ -56,22 +56,23 @@ prompt_cmd ()
 
 set_prompt ()
 {
-	local normal red green yellow blue purple cyan white
+	local norm c_r c_g c_y c_u c_p c_c c_w
 	local happy sad stat
 
-	normal="\[$(tput sgr0)\]"
-	red="\[$(tput setaf 1)\]"
-	green="\[$(tput setaf 2)\]"
-	yellow="\[$(tput setaf 3)\]"
-	blue="\[$(tput setaf 4)\]"
-	purple="\[$(tput setaf 5)\]"
-	cyan="\[$(tput setaf 6)\]"
-	white="\[$(tput setaf 7)\]"
+	norm="\[$(tput sgr0)\]"
+	c_r="\[$(tput setaf 1)\]"
+	c_g="\[$(tput setaf 2)\]"
+	c_y="\[$(tput setaf 3)\]"
+	c_u="\[$(tput setaf 4)\]"
+	c_p="\[$(tput setaf 5)\]"
+	c_c="\[$(tput setaf 6)\]"
+	c_w="\[$(tput setaf 7)\]"
 
-	happy="$green:-)$normal"
-	sad="$red:-($normal"
+	happy=":-)"
+	sad="$c_r:-($c_g"
 	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
-	PS1="${green}\\! [\\u@\\h:${white}\\W${green}]${white}\${gitstat}${green} $stat ${green}\\\$$normal "
+	PS1="${c_g}\\! [\\u@\\h:${c_w}\\W${c_g}]${c_w}"
+	PS1="${PS1}\${gitstat}${c_g} $stat \\\$$norm "
 
 	type prompt_cmd >/dev/null 2>&1 && PROMPT_COMMAND=prompt_cmd
 }
