@@ -71,7 +71,7 @@ set_prompt ()
 	happy="$green:-)$normal"
 	sad="$red:-($normal"
 	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
-	PS1="${green}\\! [\\u@\\h:\\W]\${gitstat} $stat ${green}\\\$$normal "
+	PS1="${green}\\! [\\u@\\h:${white}\\W${green}]${white}\${gitstat}${green} $stat ${green}\\\$$normal "
 
 	type prompt_cmd >/dev/null 2>&1 && PROMPT_COMMAND=prompt_cmd
 }
