@@ -27,7 +27,7 @@ git_prompt_locations=(
 	/usr/libexec/git-core/git-sh-prompt
 	/usr/share/git-core/contrib/completion/git-prompt.sh
 )
-if ! whence __git_ps1 &>/dev/null; then
+if ! type __git_ps1 &>/dev/null; then
 	for git_prompt in "${git_prompt_locations[@]}"; do
 		if [[ -f ${git_prompt} ]]; then
 			GIT_PS1_SHOWDIRTYSTATE=1
@@ -41,10 +41,9 @@ fi
 
 prompt_cmd ()
 {
-	local gitstat val
+	local val
 	
-	gitstat=
-	type __git_ps1 >/dev/null 2>&1 && gitstat=$(__git_ps1)
+	gitstat=$(type __git_ps1 &>/dev/null && __git_ps1)
 	val="${LOGNAME}@${HOSTNAME%%.*}:$(dirs)${gitstat}"
 
 	# Change the window title of X terminals
@@ -72,7 +71,7 @@ set_prompt ()
 	happy="$green:-)$normal"
 	sad="$red:-($normal"
 	stat="\`[[ \$? = 0 ]] && echo \"$happy\" || echo \"$sad\"\`"
-	PS1="${green}\! \H $stat ${green}\$$normal "
+	PS1="${green}\\! [\\u@\\h:\\W]\${gitstat} $stat ${green}\\\$$normal "
 
 	type prompt_cmd >/dev/null 2>&1 && PROMPT_COMMAND=prompt_cmd
 }
