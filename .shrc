@@ -39,7 +39,7 @@ alias vis="cat -v"
 if [ "$screen_colors" -ge 8 ]; then
 	if [ "x$OSTYPE" = xlinux -o "x$OSTYPE" = xlinux-gnu ]; then
 		alias ls="ls --color=auto"
-		alias grep='grep --color=auto -n --exclude=".*.sw?" --exclude="*~" --exclude=tags'
+		alias grep='grep --color=auto --exclude=".*.sw?" --exclude="*~" --exclude=tags'
 	elif [ "x$(uname -s)" = xFreeBSD ]; then
 		alias ls='ls -G'
 	fi
