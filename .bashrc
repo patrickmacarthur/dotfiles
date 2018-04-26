@@ -82,7 +82,7 @@ set_prompt ()
 }
 set_prompt
 
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=5000
 HISTFILESIZE=5000
 HISTIGNORE="&:?:??:[bf]g:history:exit:pwd:clear:[ ]*"
