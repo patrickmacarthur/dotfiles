@@ -64,3 +64,6 @@ whileok ()
 	while "$@"; do :; done
 	return $?
 }
+
+# gpg-agent requires this environment variable to be set
+export GPG_TTY=$(tty)
