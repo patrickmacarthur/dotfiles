@@ -18,3 +18,6 @@ checkout = git clone 'https://github.com/tpope/vim-fugitive.git' 'vim-fugitive'
 
 [.vim/bundle/khuno]
 checkout = git clone 'https://github.com/alfredodeza/khuno.vim.git' 'khuno'
+
+[.vim/bundle/Jenkinsfile-vim-syntax]
+checkout = git clone 'https://github.com/martinda/Jenkinsfile-vim-syntax.git' 'Jenkinsfile-vim-syntax'

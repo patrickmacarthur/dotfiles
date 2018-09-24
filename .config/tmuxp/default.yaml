@@ -2,16 +2,11 @@
 session_name: default
 start_directory: ~/
 windows:
-  - window_name: tasksh
-    focus: true
+  - focus: true
     panes:
-      - shell_command:
-          - exec tasksh
+      - null
   - window_name: sdjournal
+    window_index: 9
     panes:
       - shell_command:
           - exec sudo journalctl --follow
-  - window_name: dis
-    start_directory: ~/doc/papers/dissertation
-    panes:
-      - focus: true

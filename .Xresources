@@ -77,3 +77,7 @@ URxvt.scrollBar:	off
 URxvt*perl-ext-common:	default,matcher
 URxvt*url-launcher:	/usr/bin/firefox
 URxvt*matcher.button:	1
+
+*Xterm.renderFont:	true
+*Xterm*faceName:	Ubuntu Mono
+*Xterm*faceSize:	10
