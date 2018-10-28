@@ -32,6 +32,7 @@ if [ x != x$BROWSER ]; then
 	export BROWSER
 fi
 
+export GOBIN="${HOME}/.local/bin"
 export CCACHE_DIR="${XDG_CACHE_HOME}/ccache"
 export PYTHON_EGG_CACHE="${XDG_CACHE_HOME}/python-eggs"
 export TASKDATA="${XDG_DATA_HOME}/taskwarrior"
