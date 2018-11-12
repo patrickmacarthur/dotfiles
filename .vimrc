@@ -41,6 +41,8 @@ set noesckeys
 set number
 set matchtime=2
 set incsearch
+set list
+set listchars=tab:»\ ,extends:>,precedes:<,nbsp:+,trail:·
 set printoptions=paper:letter,duplex:off
 set pastetoggle=<f11>
 set ruler
