@@ -8,12 +8,7 @@
 # programs.
 set bell-style none
 
-# I prefer vi to emacs, so I set this.  Emacs mode is default, you can
-# explicitly set it with "set editing-mode emacs".  You can also define
-# custom keybindings in either mode.
-set editing-mode vi
-
-# Bind insert key to quoted-insert, since that sort of makes sense
-"\e[2~": quoted-insert
+# I use emacs now, so explicitly set the editing-mode to accordingly.
+set editing-mode emacs
 
 # vim: ft=readline:

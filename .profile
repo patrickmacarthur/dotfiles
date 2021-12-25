@@ -38,7 +38,8 @@ export PYTHON_EGG_CACHE="${XDG_CACHE_HOME}/python-eggs"
 export TASKDATA="${XDG_DATA_HOME}/taskwarrior"
 export TASKRC="${XDG_CONFIG_HOME}/taskwarrior/taskrc"
 
-export EDITOR=vim
+export ALTERNATE_EDITOR=''
+export EDITOR=emacsclient
 export LESS='FXRQ'
 export PAGER=less
 export VISUAL=${EDITOR}

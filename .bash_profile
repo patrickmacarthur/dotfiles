@@ -33,3 +33,4 @@ fi
 if [[ -n $(type -t fortune) ]]; then
 	fortune
 fi
+if [ -e /home/patrick/.nix-profile/etc/profile.d/nix.sh ]; then . /home/patrick/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
